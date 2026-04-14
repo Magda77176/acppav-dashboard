@@ -1,0 +1,33 @@
+{
+  "session_id": "candidatures-passe2-20260316-1309",
+  "date": "2026-03-16",
+  "time": "13:09:00",
+  "agent": "agent-sullivan-subagent",
+  "status": "completed_with_adaptation",
+  "phase": "passe-2-apres-midi",
+  "objectif": "15 candidatures supplémentaires",
+  "objectif_adapte": "8 candidatures préparées",
+  "keywords": ["SEO", "référencement", "WordPress", "chef de projet digital", "IA"],
+  "plateformes": ["Free-Work", "Welcome To The Jungle", "HelloWork"],
+  "plateformes_alternatives": ["Collective.work", "Email direct"],
+  "contraintes": {
+    "tjm_min": 400,
+    "tjm_max": 700,
+    "duree_min_jours": 5,
+    "localisation": ["remote", "Paris", "IDF"]
+  },
+  "offres_deja_traitees": ["data-engineer-ia-api-gcp-aws"],
+  "candidatures_passe1": 10,
+  "candidatures_passe2": 8,
+  "candidatures_preparees": [
+    "data-engineer-ia-gen",
+    "software-engineer-python-agentic-ai-x2-h-f", 
+    "data-scientist-genai-llm-rag-agents-freelance",
+    "product-owner-ia-llm-rag-assurance-ww1x"
+  ],
+  "blocages_techniques": {
+    "free-work": "Session JWT expirée",
+    "hellowork": "404 Not Found",
+    "wttj": "404 Not Found"
+  }
+}

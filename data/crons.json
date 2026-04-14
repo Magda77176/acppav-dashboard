@@ -1,0 +1,169 @@
+[
+  {
+    "id": "1ab134ed",
+    "name": "📨 Prospection Daily",
+    "schedule": "0 10 * * 1-5",
+    "tz": "Europe/Paris",
+    "type": "isolated",
+    "payload": "Emails photographes/mariages + LinkedIn dentistes — lit campaigns.json et exécute",
+    "lastStatus": "new",
+    "lastError": null,
+    "lastRun": null,
+    "nextRun": "2026-03-04T09:00:00Z",
+    "consecutiveErrors": 0,
+    "history": []
+  },
+  {
+    "id": "103e020a",
+    "name": "📋 Daily Check",
+    "schedule": "0 12 * * *",
+    "tz": "Europe/Paris",
+    "type": "main",
+    "payload": "Pipeline leads, réponses prospects, blocages, résumé Sullivan",
+    "lastStatus": "ok",
+    "lastError": null,
+    "lastRun": "2026-03-03T11:00:00Z",
+    "nextRun": "2026-03-04T11:00:00Z",
+    "consecutiveErrors": 0,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "ok",
+        "duration": "21ms"
+      },
+      {
+        "date": "2026-03-02",
+        "status": "ok",
+        "duration": "18ms"
+      }
+    ]
+  },
+  {
+    "id": "2bbe1ecd",
+    "name": "📝 IPG Batch 2 - Aprem",
+    "schedule": "0 13 * * 1-6",
+    "tz": "Europe/Paris",
+    "type": "isolated",
+    "payload": "Production articles IciPourGagner — Batch 2/3 (mix Tier 1/2)",
+    "lastStatus": "error",
+    "lastError": "Announce delivery failed — erreur de livraison Telegram",
+    "lastRun": "2026-03-03T12:00:00Z",
+    "nextRun": "2026-03-04T12:00:00Z",
+    "consecutiveErrors": 1,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "error",
+        "error": "Announce delivery failed",
+        "duration": "54s"
+      },
+      {
+        "date": "2026-03-02",
+        "status": "ok",
+        "articles": 5,
+        "duration": "28min"
+      }
+    ]
+  },
+  {
+    "id": "31c063d3",
+    "name": "📝 IPG Batch 3 - Soir",
+    "schedule": "0 17 * * 1-6",
+    "tz": "Europe/Paris",
+    "type": "isolated",
+    "payload": "Production articles IciPourGagner — Batch 3/3 (Tier 2, nettoyage)",
+    "lastStatus": "ok",
+    "lastError": null,
+    "lastRun": "2026-03-03T16:00:00Z",
+    "nextRun": "2026-03-04T16:00:00Z",
+    "consecutiveErrors": 0,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "ok",
+        "duration": "29s"
+      },
+      {
+        "date": "2026-03-02",
+        "status": "ok",
+        "articles": 4,
+        "duration": "22min"
+      }
+    ]
+  },
+  {
+    "id": "5bd406ae",
+    "name": "🧠 Memory Consolidation (Dream)",
+    "schedule": "0 4 * * *",
+    "tz": "UTC",
+    "type": "agentTurn",
+    "sessionTarget": "isolated",
+    "payload": "Exécute `node tools/memory-consolidation.js` et si des actions sont recommandées, envoie un résumé à Sullivan sur Telegram",
+    "lastStatus": "new",
+    "lastError": null,
+    "lastRun": null,
+    "nextRun": "2026-04-01T04:00:00.000Z",
+    "consecutiveErrors": 0,
+    "history": []
+  },
+  {
+    "id": "991756d7",
+    "name": "📝 IPG Batch 1 - Matin",
+    "schedule": "0 9 * * 1-6",
+    "tz": "Europe/Paris",
+    "type": "isolated",
+    "payload": "Production articles IciPourGagner — Batch 1/3 (7-12 articles, Tier 1)",
+    "lastStatus": "error",
+    "lastError": "Service overloaded — collision avec Money Brain (fixé: MB décalé à 6h30)",
+    "lastRun": "2026-03-03T08:00:00Z",
+    "nextRun": "2026-03-04T08:00:00Z",
+    "consecutiveErrors": 1,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "error",
+        "error": "Service overloaded",
+        "duration": "40s"
+      },
+      {
+        "date": "2026-03-02",
+        "status": "ok",
+        "articles": 8,
+        "duration": "35min"
+      },
+      {
+        "date": "2026-03-01",
+        "status": "ok",
+        "articles": 10,
+        "duration": "42min"
+      }
+    ]
+  },
+  {
+    "id": "3341eaf9",
+    "name": "🧠 Money Brain Daily",
+    "schedule": "30 6 * * *",
+    "tz": "UTC",
+    "type": "isolated",
+    "payload": "Qwen scrape HN+Reddit+PH → Opus analyse → Top 3 idées + Wild Card",
+    "lastStatus": "error",
+    "lastError": "Service overloaded — FIXÉ: décalé à 6h30 UTC (avant IPG)",
+    "lastRun": "2026-03-03T08:00:40Z",
+    "nextRun": "2026-03-04T06:30:00Z",
+    "consecutiveErrors": 2,
+    "history": [
+      {
+        "date": "2026-03-03",
+        "status": "error",
+        "error": "Service overloaded",
+        "duration": "47s"
+      },
+      {
+        "date": "2026-03-01",
+        "status": "ok",
+        "ideas": 4,
+        "duration": "3min"
+      }
+    ]
+  }
+]

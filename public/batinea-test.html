@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roadmap IA — Batinea</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#F8FAFC; font-family:'Inter',system-ui,sans-serif; font-size:14px; line-height:1.6; color:#1E293B; -webkit-font-smoothing:antialiased; }
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-thumb { background:#CBD5E1; border-radius:3px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState} = React;
+
+const phases = [
+  {
+    month: "M1",
+    title: "Diagnostic IA & Data",
+    lot: "LOT 1",
+    lotColor: "#3B82F6",
+    budget: "",
+    subtitle: "Comprendre l\u2019existant, identifier les leviers, prioriser les actions",
+    description: "Le mois 1 est la fondation de tout le projet. On plonge dans l\u2019écosystème technique et business de Batinea pour cartographier précisément les données exploitables, les points de friction, et les opportunités IA à fort ROI. Aucune ligne de code n\u2019est écrite \u2014 on investit dans la compréhension avant l\u2019exécution.",
+    actions: [
+      {
+        title: "Audit technique complet de la stack",
+        detail: "Analyse approfondie de PrestaShop (version, modules, personnalisations, qualité des fiches produits, attributs structurés vs texte libre), Odoo (flux ERP, données stock, facturation, intégrations existantes), et Shippingbo (API, statuts livraison, données tracking). On identifie les points d\u2019intégration API disponibles et les limitations techniques.",
+        type: "audit",
+      },
+      {
+        title: "Cartographie des données exploitables",
+        detail: "Inventaire exhaustif des données disponibles : historique commandes (volume, récurrence, saisonnalité), données navigation GA4 (parcours, taux de rebond par catégorie, funnel de conversion), tickets SAV (volume, catégories, temps de résolution), données marketplaces (10 canaux). On évalue la qualité, la complétude et l\u2019exploitabilité de chaque source pour les cas d\u2019usage IA.",
+        type: "audit",
+      },
+      {
+        title: "Scoring des 5 cas d\u2019usage prioritaires",
+        detail: "Chaque cas d\u2019usage IA est évalué sur 4 critères : impact business (gain CA ou réduction coûts), faisabilité technique (données dispo, complexité), délai de mise en œuvre (quick win vs projet long), et effort requis. On produit une matrice de priorisation qui guide toute la suite du projet. Exemples de cas évalués : chatbot SAV, reco produit, génération contenu, prédiction stock, NLP tickets.",
+        type: "quick",
+      },
+      {
+        title: "Benchmark concurrents IA dans le sanitaire",
+        detail: "Analyse des pratiques IA des concurrents directs (Cedeo, Brossette, ManoMano, Richardson) et indirects (Amazon, Leroy Merlin) : chatbots déployés, personnalisation, contenu automatisé, recommandations. On identifie les écarts et les opportunités de différenciation pour Batinea.",
+        type: "audit",
+      },
+      {
+        title: "Identification des tâches chronophages",
+        detail: "Entretiens avec chaque pôle (support, marketing, logistique, commercial) pour cartographier les tâches répétitives qui consomment du temps : réponses SAV type, mise à jour fiches produits, gestion tickets marketplaces, reporting manuel, relances devis pro. Chaque tâche est quantifiée en heures/semaine et en coût.",
+        type: "audit",
+      },
+    ],
+    livrables: [
+      "Rapport d\u2019audit IA (40-60 pages) avec cartographie données, analyse technique, benchmark",
+      "Matrice de priorisation des cas d\u2019usage (scoring multicritère)",
+      "Cartographie des tâches automatisables avec estimation gains",
+      "Présentation de restitution à la direction (1h)",
+    ],
+    roi: {
+      title: "Poser les fondations d\u2019un projet \u00e0 fort ROI",
+      detail: "Le diagnostic permet d\u2019éviter les erreurs coûteuses : on investit uniquement sur les cas d\u2019usage qui ont le meilleur ratio impact/effort. Sur un projet à 60K\u20ac, un mauvais diagnostic peut coûter 15-20K\u20ac en développements inutiles. Le mois 1 est l\u2019assurance qualité du projet.",
+      metrics: ["Base décisionnelle pour 50K\u20ac d\u2019investissement", "Identification de 3-5 quick wins activables dès M3", "Quantification précise des gains attendus par axe"],
+    },
+    pedagogie: {
+      title: "Atelier de sensibilisation IA",
+      detail: "Session de 2h avec toute l\u2019équipe Batinea (~20 personnes). Objectif : démystifier l\u2019IA, montrer des cas d\u2019usage concrets dans le e-commerce sanitaire, répondre aux questions et craintes. On utilise des exemples directement tirés des données Batinea pour rendre la session concrète. Résultat : l\u2019équipe comprend le projet, adhère, et identifie elle-même des opportunités.",
+    },
+  },
+  {
+    month: "M2",
+    title: "Cadrage & Architecture",
+    lot: "LOT 1 + LOT 2",
+    lotColor: "#3B82F6",
+    budget: "",
+    subtitle: "Transformer le diagnostic en plan d\u2019action technique et business",
+    description: "Le mois 2 traduit les insights du diagnostic en spécifications concrètes. On définit l\u2019architecture technique cible, on modélise les algorithmes du moteur de recommandation, et on établit les KPI précis qui permettront de mesurer le ROI à chaque étape. C\u2019est le plan de bataille détaillé.",
+    actions: [
+      {
+        title: "Spécifications fonctionnelles complètes",
+        detail: "Document détaillé de chaque module IA : chatbot (scénarios conversationnels, arbre de décision, intégrations), moteur de reco (flow de questions, logique de scoring, règles métier compatibilité sanitaire), hub support (sources de tickets, règles de priorisation NLP, workflow de traitement), pipeline contenu (templates SEO, workflow validation, règles éditoriales). Chaque spec inclut les user stories, les maquettes fonctionnelles et les critères d\u2019acceptation.",
+        type: "quick",
+      },
+      {
+        title: "Architecture technique détaillée",
+        detail: "Schéma d\u2019architecture complet : API backend (FastAPI Python), connexions PrestaShop (webservices + hooks), Odoo (API REST), Shippingbo (API), base vectorielle (Qdrant) pour le RAG, LLM (Claude API), cache Redis, infrastructure cloud (AWS/GCP). On définit les flux de données, les points d\u2019intégration, la stratégie de cache, et le plan de monitoring. L\u2019architecture est conçue pour une latence < 2 secondes sur le chatbot et < 100ms sur les recommandations.",
+        type: "quick",
+      },
+      {
+        title: "Modélisation algorithmique du moteur de recommandation",
+        detail: "Conception détaillée de l\u2019algorithme hybride : flow conversationnel guidé (questions clés : type de projet, surface, style, marque, budget) + analyse LLM des réponses en langage naturel (extraction attributs implicites : contraintes accessibilité, enfants, style de vie) + re-ranking contextuel des produits. On définit les règles métier de compatibilité technique spécifiques au sanitaire (entraxes bâti-support/cuvettes, diamètres siphon/receveur, compatibilité gamme/marque). C\u2019est le cœur du prototype CII.",
+        type: "proto",
+      },
+      {
+        title: "Définition des KPI et objectifs ROI",
+        detail: "Pour chaque module IA, on définit des KPI mesurables avec des objectifs à 3, 6 et 12 mois. Exemples : taux de résolution chatbot (cible : 60% autonome), taux de clic sur recommandations (cible : 12-15%), réduction temps traitement tickets (cible : -50%), augmentation panier moyen (cible : +20%). On installe les outils de tracking dès ce mois pour avoir une baseline fiable.",
+        type: "audit",
+      },
+    ],
+    livrables: [
+      "Document de spécifications fonctionnelles (80-100 pages)",
+      "Schéma d\u2019architecture technique avec flux de données",
+      "Modélisation algorithmique du moteur de recommandation",
+      "Tableau de bord KPI avec baseline et objectifs",
+      "Roadmap technique détaillée M3-M6",
+    ],
+    roi: {
+      title: "Chaque euro est fl\u00e9ch\u00e9 vers un r\u00e9sultat mesurable",
+      detail: "Le cadrage garantit que les 40K\u20ac restants sont investis sur des développements à impact prouvé. Les KPI définis ce mois-ci serviront de référence pour mesurer le ROI réel du projet à chaque étape.",
+      metrics: ["Architecture validée = zéro refonte technique en cours de route", "KPI baseline = mesure d\u2019impact dès M3", "Specs complètes = développement M3-M4 sans blocage"],
+    },
+    pedagogie: {
+      title: "Ateliers use cases IA par équipe",
+      detail: "Sessions ciblées de 1h par pôle (marketing, support, logistique, commercial). On présente les cas d\u2019usage IA spécifiques à chaque métier avec des démos sur les données réelles de Batinea. L\u2019objectif est que chaque équipe comprenne concrètement comment l\u2019IA va transformer son quotidien et qu\u2019elle contribue activement aux spécifications (retours terrain, cas limites, besoins spécifiques).",
+    },
+  },
+  {
+    month: "M3",
+    title: "Conception & Premiers Quick Wins",
+    lot: "LOT 2 + LOT 3",
+    lotColor: "#8B5CF6",
+    budget: "",
+    subtitle: "Premiers prototypes fonctionnels + premiers résultats visibles",
+    description: "Le mois 3 marque le passage à l\u2019action. On développe les premiers prototypes fonctionnels (chatbot, moteur de reco, NLP tickets) en parallèle des quick wins qui génèrent des résultats immédiats (contenu SEO automatisé, centralisation tickets). C\u2019est le mois où l\u2019équipe Batinea commence à voir des résultats concrets.",
+    isKeyMilestone: true,
+    actions: [
+      {
+        title: "Prototype chatbot RAG sur le catalogue Batinea",
+        detail: "Vectorisation des 10 000+ fiches produits, FAQ techniques, guides d\u2019installation et spécifications constructeurs dans Qdrant. Le chatbot est capable de répondre aux questions techniques (\"est-ce que le bâti-support Grohe Rapid SL est compatible avec la cuvette Villeroy & Boch Architectura ?\"), de recommander des produits selon un brief client, et de fournir des informations de stock/livraison via Odoo/Shippingbo. Version interne d\u2019abord (test par l\u2019équipe support), puis itération avant déploiement client.",
+        type: "proto",
+      },
+      {
+        title: "Prototype moteur de recommandation conversationnel",
+        detail: "Implémentation du flow conversationnel guidé : 5-6 questions clés (type de projet, surface, style, marque, budget) → analyse LLM des réponses → query catalogue PrestaShop avec filtres enrichis → règles métier de compatibilité technique → assemblage de packs produits cohérents → présentation avec prix total et bouton d\u2019ajout panier. Le LLM analyse les réponses en langage naturel pour extraire les contraintes implicites (accessibilité, enfants, style de vie) et re-ranker les résultats en conséquence.",
+        type: "proto",
+      },
+      {
+        title: "Hub centralisation tickets multi-marketplace",
+        detail: "Mise en place d\u2019un hub centralisé qui agrège les tickets SAV provenant du site PrestaShop et des 10 marketplaces (Vente-Unique, Amazon, ManoMano, Cdiscount, etc.) dans une interface unique. Chaque ticket est automatiquement tagué par source, catégorie produit et niveau d\u2019urgence. L\u2019équipe support n\u2019a plus besoin de jongler entre 11 back-offices différents.",
+        type: "quick",
+      },
+      {
+        title: "Prototype NLP priorisation et catégorisation tickets",
+        detail: "Modèle NLP qui analyse le contenu de chaque ticket entrant et lui attribue automatiquement : une catégorie (question produit, SAV, livraison, retour, devis), un niveau de priorité (urgent/normal/basse), le produit ou la catégorie concernée, et une suggestion de réponse basée sur l\u2019historique. Le modèle s\u2019entraîne sur l\u2019historique des tickets déjà résolus par l\u2019équipe Batinea.",
+        type: "proto",
+      },
+      {
+        title: "Pipeline de génération de contenu SEO",
+        detail: "Système automatisé qui produit des fiches produits optimisées SEO (titre, meta description, description longue, bullet points techniques, FAQ produit) et des articles de blog (guides d\u2019installation, comparatifs, conseils rénovation). Le pipeline intègre les règles éditoriales de Batinea, les contraintes SEO (mots-clés cibles, structure Hn, maillage interne), et un workflow de validation humaine avant publication. Objectif : passer de quelques contenus manuels par semaine à 10+ par jour.",
+        type: "quick",
+      },
+    ],
+    livrables: [
+      "Chatbot fonctionnel en version beta (test interne)",
+      "Moteur de recommandation conversationnel en prototype",
+      "Hub tickets multi-marketplace opérationnel",
+      "NLP priorisation tickets en prototype",
+      "Pipeline contenu SEO actif (premiers articles publiés)",
+      "Rapport d\u2019avancement avec premiers KPI",
+    ],
+    roi: {
+      title: "Premiers r\u00e9sultats visibles et mesurables",
+      detail: "Le mois 3 est le moment où le projet commence à produire de la valeur. Les quick wins (contenu SEO, centralisation tickets) génèrent des gains immédiats, tandis que les prototypes sont en test interne.",
+      metrics: [
+        "Contenu SEO : x3 en volume de production dès la première semaine",
+        "Support : -20% de temps perdu en navigation entre back-offices (centralisation)",
+        "Chatbot : 200+ questions techniques testées en interne → taux de réponse correcte > 80%",
+        "SEO : premières positions Google sur des mots-clés longue traîne (guides techniques)",
+      ],
+    },
+    pedagogie: {
+      title: "Formation prompt engineering équipe marketing",
+      detail: "Session pratique de 3h avec l\u2019équipe marketing. On leur apprend à utiliser le pipeline de génération de contenu : comment rédiger des briefs efficaces, comment valider et enrichir le contenu généré, comment optimiser les prompts pour le ton de voix Batinea. À la fin de la session, chaque membre de l\u2019équipe est capable de produire 5-10 contenus optimisés par jour de manière autonome.",
+    },
+  },
+  {
+    month: "M4",
+    title: "Développement & ML",
+    lot: "LOT 2 + LOT 3",
+    lotColor: "#8B5CF6",
+    budget: "",
+    subtitle: "Montée en puissance des systèmes IA + prédictions ML",
+    description: "Le mois 4 est le mois de la montée en puissance. Les prototypes du mois 3 sont enrichis avec les données réelles de Batinea, les modèles ML prédictifs sont entraînés, et les automatisations de workflows sont déployées. Le chatbot est connecté à l\u2019ensemble de la stack (PrestaShop + Odoo + Shippingbo). Le contenu SEO tourne à plein régime.",
+    actions: [
+      {
+        title: "Entraînement moteur de reco sur données réelles",
+        detail: "Le moteur de recommandation est alimenté par les données réelles de Batinea : historique de commandes (patterns d\u2019achat, produits souvent achetés ensemble, récurrence), données navigation (parcours types, pages les plus vues, taux de rebond par catégorie), et retours d\u2019expérience du test interne M3. Les règles métier de compatibilité technique sont affinées avec l\u2019expertise de l\u2019équipe Batinea (quels produits vont réellement ensemble, quelles erreurs de compatibilité sont fréquentes). Le re-ranking LLM est calibré pour maximiser le panier moyen tout en restant pertinent.",
+        type: "proto",
+      },
+      {
+        title: "Chatbot connecté à la stack complète",
+        detail: "Le chatbot est maintenant connecté en temps réel à PrestaShop (catalogue, prix, promotions), Odoo (stock disponible, délais réapprovisionnement, historique client, devis en cours), et Shippingbo (statut livraison, tracking). Il peut répondre à \"où en est ma commande ?\" en interrogeant Shippingbo, proposer un produit en vérifiant le stock dans Odoo, et ajouter au panier via PrestaShop. C\u2019est un vrai assistant commercial qui agit, pas juste un FAQ.",
+        type: "proto",
+      },
+      {
+        title: "Modèles ML prédictifs",
+        detail: "Trois modèles prédictifs sont entraînés sur les données historiques Batinea : (1) Prévision de demande par produit/catégorie — pour anticiper les pics de vente et optimiser le réapprovisionnement (2) Prédiction des retours — identification des produits/commandes à risque de retour pour action préventive (information client, amélioration fiche produit) (3) Prédiction des pics SAV — anticiper les périodes de forte sollicitation pour planifier les ressources support. Chaque modèle est évalué sur des données historiques avant déploiement.",
+        type: "proto",
+      },
+      {
+        title: "Automatisation des workflows chronophages",
+        detail: "Déploiement des automatisations identifiées au mois 1 : génération automatique de réponses SAV types (templates contextuels), mise à jour automatique des fiches produits (prix, stock, disponibilité), reporting automatisé (dashboard hebdomadaire ventes/SAV/contenu), relances automatiques devis pro (séquence email personnalisée). Chaque automatisation est mesurée en heures économisées par semaine.",
+        type: "quick",
+      },
+      {
+        title: "Déploiement SEO à échelle + premiers use cases SEA",
+        detail: "Le pipeline contenu tourne à x10 : 10+ articles/jour avec validation humaine. On lance les premiers use cases SEA assistés par IA : génération automatique d\u2019annonces Google Ads adaptées aux catégories produits, suggestions d\u2019audiences prédictives basées sur les données de conversion, optimisation automatique des enchères. Analyse data marketing : attribution multi-canal, identification des parcours de conversion les plus rentables.",
+        type: "quick",
+      },
+    ],
+    livrables: [
+      "Moteur de recommandation entraîné et calibré sur données réelles",
+      "Chatbot connecté PrestaShop + Odoo + Shippingbo (version avancée)",
+      "3 modèles ML prédictifs (demande, retours, SAV) déployés",
+      "Automatisations workflows actives (mesure gains en heures/semaine)",
+      "Contenu SEO à x10 + premiers résultats SEA IA",
+    ],
+    roi: {
+      title: "La machine IA est lanc\u00e9e",
+      detail: "Le mois 4 marque le basculement : les systèmes IA produisent de la valeur quotidiennement. Les premiers impacts sur le CA et les coûts deviennent mesurables.",
+      metrics: [
+        "Contenu SEO : x10 en volume → premières hausses trafic organique mesurables",
+        "Support : -30% temps traitement (NLP priorisation + suggestions réponses)",
+        "Chatbot : déploiement en beta client (test sur 10% du trafic)",
+        "Prédictions stock : premières alertes réapprovisionnement automatiques",
+        "Automatisations : 15-25h/semaine économisées sur l\u2019ensemble de l\u2019équipe",
+      ],
+    },
+    pedagogie: {
+      title: "Formation équipe support",
+      detail: "Session de 2h avec l\u2019équipe support. Formation à l\u2019utilisation du chatbot en interne (comment l\u2019utiliser pour trouver des réponses techniques rapidement), du hub de tickets centralisé (lecture des priorités NLP, workflow de traitement optimisé), et des suggestions de réponses automatiques (comment les valider, modifier, personnaliser). L\u2019équipe support devient 2x plus productive.",
+    },
+  },
+  {
+    month: "M5",
+    title: "Intégration & Tests",
+    lot: "LOT 2 + LOT 3",
+    lotColor: "#10B981",
+    budget: "",
+    subtitle: "Tout est connecté, tout est testé, tout est mesuré",
+    description: "Le mois 5 est le mois de l\u2019intégration finale et de la validation. Tous les modules IA sont connectés au site PrestaShop en production, le tunnel d\u2019achat est optimisé par l\u2019IA, et des A/B tests rigoureux mesurent l\u2019impact réel de chaque brique. C\u2019est le dernier mois avant la mise en production complète.",
+    actions: [
+      {
+        title: "Intégration complète sur site PrestaShop",
+        detail: "Déploiement de tous les modules sur le site en production : widget chatbot (hook displayBeforeBodyClosingTag), blocs de recommandation sur les fiches produits (displayProductAdditionalInfo), dans le panier (displayShoppingCartFooter), et sur la home (displayHome). Le moteur de recommandation conversationnel est accessible via le chatbot. Toutes les interactions sont trackées pour alimenter les A/B tests et le re-training des modèles.",
+        type: "deploy",
+      },
+      {
+        title: "Optimisation tunnel d\u2019achat (CRO IA)",
+        detail: "Analyse IA du tunnel de conversion actuel : identification des points de friction (abandon panier, pages à fort taux de rebond, étapes du checkout problématiques). Déploiement d\u2019optimisations : personnalisation dynamique des pages catégories selon le profil visiteur, réorganisation automatique des produits en fonction du taux de conversion, pop-up intelligent de rétention (offre contextualisée au moment de l\u2019abandon). Chaque optimisation est testée en A/B.",
+        type: "quick",
+      },
+      {
+        title: "A/B testing recommandations vs contrôle",
+        detail: "Tests A/B rigoureux sur chaque module : (A) Recommandations IA personnalisées vs (B) recommandations par défaut PrestaShop. On mesure : taux de clic, taux d\u2019ajout panier, panier moyen, taux de conversion, et CA par visiteur. Les tests tournent sur un échantillon statistiquement significatif (minimum 2 semaines à 70K visiteurs/mois). Résultats attendus : +12-18% de taux de clic, +15-25% de panier moyen sur le groupe test.",
+        type: "quick",
+      },
+      {
+        title: "Recettage fonctionnel complet",
+        detail: "Tests de bout en bout de tous les modules : chatbot (200+ scénarios de conversation, cas limites, gestion des erreurs), moteur de reco (vérification compatibilité technique sur les 50 combinaisons produits les plus fréquentes), NLP tickets (validation taux de catégorisation correcte > 90%), ML prédictif (backtesting sur données historiques), automatisations (vérification des flux). Chaque bug est priorisé et corrigé avant M6.",
+        type: "deploy",
+      },
+      {
+        title: "Validation des performances vs KPI",
+        detail: "Confrontation des résultats réels aux KPI définis au mois 2. Rapport détaillé avec les écarts, les causes, et les ajustements nécessaires. Si un module ne performe pas, on itère avant la mise en production M6. Dashboard de monitoring en temps réel installé pour le suivi post-déploiement.",
+        type: "deploy",
+      },
+    ],
+    livrables: [
+      "Tous les modules IA déployés sur le site en production",
+      "Résultats A/B tests avec analyse statistique",
+      "Rapport CRO avec optimisations du tunnel d\u2019achat",
+      "Rapport de recettage fonctionnel (0 bug bloquant)",
+      "Dashboard de monitoring temps réel opérationnel",
+      "Rapport KPI vs objectifs avec plan d\u2019ajustement",
+    ],
+    roi: {
+      title: "Premi\u00e8res preuves de ROI sur donn\u00e9es r\u00e9elles",
+      detail: "Le mois 5 fournit les premiers chiffres de ROI réels, mesurés sur le trafic Batinea. Ces données valident (ou ajustent) les projections et permettent d\u2019optimiser avant le déploiement complet.",
+      metrics: [
+        "A/B test reco : mesure précise du delta conversion et panier moyen",
+        "Chatbot : taux de résolution autonome mesuré sur trafic réel (cible : 60%)",
+        "CRO : identification et correction des 3-5 principaux points de friction du tunnel",
+        "Support : temps moyen de traitement tickets mesuré vs baseline M1",
+        "SEO : premières pages 1 Google sur des mots-clés cibles (guides, comparatifs)",
+      ],
+    },
+    pedagogie: {
+      title: "Formation CRO équipe e-commerce",
+      detail: "Session de 2h avec l\u2019équipe marketing/e-commerce. On leur montre comment lire le dashboard de monitoring, interpréter les résultats A/B, et prendre des décisions data-driven. L\u2019équipe apprend à lancer ses propres tests et à optimiser continuellement le tunnel de conversion sans dépendre du prestataire.",
+    },
+  },
+  {
+    month: "M6",
+    title: "Production & Transmission",
+    lot: "LOT 3",
+    lotColor: "#10B981",
+    budget: "",
+    subtitle: "Tout est en production, l\u2019équipe est autonome, le ROI est activé",
+    description: "Le mois 6 finalise le projet : mise en production complète, monitoring automatisé, documentation exhaustive, et transmission aux équipes. L\u2019objectif est que Batinea soit 100% autonome sur les outils déployés à la fin de ce mois. Le rapport ROI final mesure les gains réels et projette l\u2019impact à 12 mois.",
+    isKeyMilestone: true,
+    actions: [
+      {
+        title: "Mise en production complète",
+        detail: "Tous les modules passent en production à 100% du trafic : chatbot client (widget sur toutes les pages), recommandations personnalisées (fiches produits, panier, home, catégories), NLP tickets (priorisation automatique sur tous les canaux), ML prédictif (alertes réapprovisionnement actives, prédictions retours intégrées au workflow SAV). Le système est monitoré en continu avec des alertes automatiques en cas d\u2019anomalie (latence, taux d\u2019erreur, chute de performance).",
+        type: "deploy",
+      },
+      {
+        title: "Documentation complète & playbooks opérationnels",
+        detail: "Production de la documentation exhaustive : guide technique (architecture, API, configuration, troubleshooting), guide utilisateur par pôle (support : comment utiliser le chatbot et le hub tickets ; marketing : comment piloter le contenu SEO et les A/B tests ; logistique : comment lire les prédictions stock ; direction : comment lire le dashboard ROI). Les playbooks incluent les procédures pour les cas d\u2019usage courants et les situations d\u2019urgence.",
+        type: "deploy",
+      },
+      {
+        title: "Formation admin et transmission",
+        detail: "Sessions de formation finales par équipe : administration des outils (comment modifier les prompts du chatbot, ajuster les règles de recommandation, reconfigurer les priorités NLP), maintenance courante (que faire si le chatbot donne une mauvaise réponse, comment enrichir la base de connaissances, comment ajouter un nouveau produit au moteur de reco). L\u2019objectif est une autonomie totale — Batinea ne dépend plus du prestataire pour le fonctionnement quotidien.",
+        type: "deploy",
+      },
+      {
+        title: "Rapport ROI final & recommandations évolutions",
+        detail: "Rapport complet mesurant les résultats réels vs les KPI définis en M2 : impact sur le taux de conversion, panier moyen, trafic organique, coûts support, temps de traitement, prédictions stock. Projection du ROI à 12 mois basée sur les données réelles. Recommandations d\u2019évolutions prioritaires pour la phase de maintenance (couche ML collaborative quand la data le permet, extension chatbot à WhatsApp/Messenger, nouveaux modèles prédictifs).",
+        type: "audit",
+      },
+      {
+        title: "Optimisation performances & monitoring",
+        detail: "Derniers ajustements de performance : optimisation des temps de réponse (cache, pré-calcul), affinage des modèles ML sur les données accumulées depuis M3, calibration finale du chatbot sur les retours clients réels. Installation du monitoring long terme : dashboard temps réel, alertes, rapports hebdomadaires automatisés.",
+        type: "deploy",
+      },
+    ],
+    livrables: [
+      "Tous les modules IA en production à 100% du trafic",
+      "Documentation complète (technique + utilisateur + admin)",
+      "Playbooks opérationnels par équipe",
+      "Rapport ROI final avec projections 12 mois",
+      "Dashboard de monitoring long terme opérationnel",
+      "Recommandations d\u2019évolutions prioritaires",
+    ],
+    roi: {
+      title: "ROI complet activ\u00e9 \u2014 tous les syst\u00e8mes en production",
+      detail: "À la fin du mois 6, tous les systèmes IA sont en production et génèrent de la valeur quotidiennement. Les gains mesurés pendant les mois 3-5 se multiplient sur 100% du trafic.",
+      metrics: [
+        "Conversion : +15% mesuré sur A/B test → appliqué à 70 000 visiteurs/mois",
+        "Panier moyen : +20% → impact direct sur le CA mensuel",
+        "Support : -30% coûts, -50% temps traitement → réallocation équipe sur la vente",
+        "SEO : x10 contenu → +40% trafic organique projeté à 12 mois",
+        "Stock : -25% ruptures, -20% surstock → optimisation BFR",
+        "Projection 12 mois : 150 000 \u2013 300 000 \u20ac de CA supplémentaire",
+      ],
+    },
+    pedagogie: {
+      title: "Transmission finale + playbooks",
+      detail: "La dernière session est une session de clôture avec toute l\u2019équipe : présentation des résultats, démonstration de l\u2019autonomie de chaque pôle sur les outils, remise des playbooks, et Q&A ouverte. L\u2019équipe Batinea repart avec tous les outils, toute la documentation, et la confiance pour continuer sans accompagnement. La maintenance optionnelle est là pour les évolutions, pas pour le fonctionnement courant.",
+    },
+  },
+];
+
+const roiMetrics = [
+  { label: "Taux de conversion", target: "+15%", detail: "Recommandations personnalisées + CRO IA tunnel d\u2019achat", icon: "\ud83d\udcc8", color: "#10B981" },
+  { label: "Panier moyen", target: "+20%", detail: "Cross-sell/upsell intelligent via chatbot conversationnel", icon: "\ud83d\uded2", color: "#8B5CF6" },
+  { label: "Coûts support", target: "-30%", detail: "Chatbot autonome + NLP priorisation + suggestions auto", icon: "\ud83d\udcde", color: "#3B82F6" },
+  { label: "Temps traitement tickets", target: "-50%", detail: "Centralisation multi-marketplace + NLP + réponses suggérées", icon: "\u23f1\ufe0f", color: "#F59E0B" },
+  { label: "Production contenu SEO", target: "x10", detail: "Pipeline automatisé avec validation humaine (10+ contenus/jour)", icon: "\u270d\ufe0f", color: "#EF4444" },
+  { label: "Trafic organique", target: "+40%", detail: "Contenu massif + optimisation technique + maillage intelligent", icon: "\ud83c\udf10", color: "#06B6D4" },
+  { label: "Ruptures stock", target: "-25%", detail: "ML prédictif sur la demande + alertes réapprovisionnement", icon: "\ud83d\udce6", color: "#EC4899" },
+  { label: "CA supplémentaire (12 mois)", target: "150-300K\u20ac", detail: "Cumul de tous les leviers IA sur 70 000 visiteurs/mois", icon: "\ud83d\udcb0", color: "#10B981" },
+];
+
+const subsidies = [
+  { name: "IA Booster Bpifrance", lot: "LOT 1", amount: "5 500 \u2013 12 000 \u20ac", rate: "42-80%", color: "#3B82F6", status: "\u2705 Actif",
+    detail: "Programme national Osez l\u2019IA \u2014 Diagnostic Data IA + Accompagnement",
+    conditions: "PME/ETI, 10-2 000 salariés, CA > 1 M\u20ac, +1 an d\u2019existence. Candidature en ligne sur plateforme Bpifrance.",
+    action: "Vérifier éligibilité CA Batinea. Dépôt dossier dès validation de la proposition.",
+  },
+  { name: "Crédit d\u2019Impôt Innovation (CII)", lot: "LOT 2", amount: "6 000 \u20ac", rate: "20%", color: "#8B5CF6", status: "\u2705 Éligible",
+    detail: "Crédit d\u2019impôt sur conception de prototypes de produits nouveaux",
+    conditions: "PME < 250 salariés, CA < 50 M\u20ac. Assiette plafonnée à 400K\u20ac/an. Taux 20% en métropole. Valable jusqu\u2019au 31/12/2027. Prestataire doit avoir agrément CII.",
+    action: "Deep Learning dépose demande agrément CII avant 30/09/2026. Batinea déclare via formulaire 2069-A-SD à la clôture d\u2019exercice.",
+  },
+  { name: "Région Occitanie", lot: "LOT 3", amount: "5 000 \u2013 9 000 \u20ac", rate: "50-60%", color: "#10B981", status: "\u2705 Éligible",
+    detail: "PASS Numérique + FEDER transformation digitale",
+    conditions: "TPE-PME en Occitanie. PASS Numérique : 50% pour adoption IA/Big Data. FEDER : jusqu\u2019à 60% investissements transformation digitale/technologique.",
+    action: "Contacter AD\u2019OCC (agence développement économique Occitanie) et CCI Toulouse Haute-Garonne dès le mois 1.",
+  },
+];
+
+const typeColors = {
+  audit: { bg: "rgba(59,130,246,0.10)", text: "#60A5FA", border: "rgba(59,130,246,0.25)" },
+  quick: { bg: "rgba(245,158,11,0.10)", text: "#FBBF24", border: "rgba(245,158,11,0.25)" },
+  proto: { bg: "rgba(139,92,246,0.10)", text: "#A78BFA", border: "rgba(139,92,246,0.25)" },
+  deploy: { bg: "rgba(16,185,129,0.10)", text: "#34D399", border: "rgba(16,185,129,0.25)" },
+};
+const typeLabels = { audit: "Audit", quick: "Quick Win", proto: "Prototype CII", deploy: "Déploiement" };
+
+function Roadmap() {
+  const [activePhase, setActivePhase] = useState(0);
+  const [activeTab, setActiveTab] = useState("overview");
+  const [expandedAction, setExpandedAction] = useState(null);
+  const p = phases[activePhase];
+
+  const blue = "#2563EB";
+  const green = "#059669";
+  const bdr = "#E2E8F0";
+  const muted = "#64748B";
+  const card = "#FFFFFF";
+  const bg = "#F8FAFC";
+
+  const tabStyle = (active) => ({
+    padding:"10px 20px",cursor:"pointer",fontSize:13,fontWeight:active?700:500,
+    color:active?blue:muted,borderBottom:active?`2px solid ${blue}`:"2px solid transparent",
+    background:"transparent",border:"none",fontFamily:"inherit",
+  });
+
+  return (
+    <div style={{minHeight:"100vh",background:bg,fontFamily:"'Inter',system-ui,sans-serif",color:"#1E293B"}}>
+
+      {/* HEADER */}
+      <div style={{background:"#fff",borderBottom:`1px solid ${bdr}`,padding:"24px 40px"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:16}}>
+          <div>
+            <div style={{fontSize:12,fontWeight:600,color:muted,textTransform:"uppercase",letterSpacing:"0.05em"}}>Deep Learning — Proposition de mission</div>
+            <h1 style={{fontSize:26,fontWeight:800,color:"#0F172A",margin:"6px 0 0",letterSpacing:"-0.02em"}}>Roadmap IA 360° — Batinea</h1>
+            <div style={{display:"flex",gap:8,marginTop:10,flexWrap:"wrap"}}>
+              {["6 mois","Télétravail libre","PrestaShop","Odoo","Shippingbo","10 marketplaces"].map((t,i)=>(
+                <span key={i} style={{fontSize:11,padding:"4px 10px",borderRadius:20,background:"#EFF6FF",color:blue,fontWeight:500}}>{t}</span>
+              ))}
+            </div>
+          </div>
+          <div style={{textAlign:"right"}}>
+            <div style={{fontSize:11,color:muted}}>70 000 visiteurs/mois</div>
+            <div style={{fontSize:11,color:muted}}>~20 collaborateurs</div>
+          </div>
+        </div>
+        {/* Tabs */}
+        <div style={{display:"flex",gap:4,marginTop:20,borderBottom:`1px solid ${bdr}`}}>
+          {[{id:"overview",l:"Vue d’ensemble"},{id:"roadmap",l:"Roadmap détaillée"},{id:"roi",l:"Impact & ROI"},{id:"subs",l:"Financement"}].map(t=>(
+            <button key={t.id} onClick={()=>setActiveTab(t.id)} style={tabStyle(activeTab===t.id)}>{t.l}</button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{padding:"32px 40px",maxWidth:1100,margin:"0 auto"}}>
+
+        {/* ========= OVERVIEW ========= */}
+        {activeTab==="overview" && <>
+          {/* Key numbers */}
+          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:16,marginBottom:32}}>
+            {[
+              {label:"ROI projeté",value:"x3,5 à x9",sub:"à 12 mois",color:green},
+              {label:"CA supplémentaire",value:"150-300K€",sub:"projection annuelle",color:blue},
+              {label:"Aides disponibles",value:"16,5-27K€",sub:"Bpifrance + CII + Région",color:"#7C3AED"},
+              {label:"Modules IA",value:"6",sub:"chatbot, reco, NLP, ML, SEO, growth",color:"#0891B2"},
+            ].map((k,i)=>(
+              <div key={i} style={{background:card,borderRadius:12,padding:"24px",border:`1px solid ${bdr}`}}>
+                <div style={{fontSize:12,color:muted,fontWeight:500,marginBottom:8}}>{k.label}</div>
+                <div style={{fontSize:28,fontWeight:800,color:k.color,letterSpacing:"-0.02em"}}>{k.value}</div>
+                <div style={{fontSize:12,color:"#94A3B8",marginTop:4}}>{k.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Architecture overview */}
+          <h2 style={{fontSize:18,fontWeight:700,marginBottom:16}}>Architecture IA proposée</h2>
+          <div style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"32px",marginBottom:32}}>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 2fr 1fr",gap:24,alignItems:"start"}}>
+              {/* Stack */}
+              <div>
+                <div style={{fontSize:12,fontWeight:700,color:muted,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:12}}>Stack existante</div>
+                {["PrestaShop (catalogue)","Odoo (ERP/stock)","Shippingbo (logistique)","10 Marketplaces","GA4 / Matomo"].map((s,i)=>(
+                  <div key={i} style={{padding:"8px 12px",background:"#F1F5F9",borderRadius:8,marginBottom:4,fontSize:13,color:"#475569"}}>{s}</div>
+                ))}
+              </div>
+              {/* Core */}
+              <div style={{textAlign:"center"}}>
+                <div style={{background:blue,color:"#fff",borderRadius:12,padding:"20px",margin:"0 auto",maxWidth:280}}>
+                  <div style={{fontSize:18,fontWeight:800}}>Couche IA</div>
+                  <div style={{fontSize:12,opacity:0.8,marginTop:4}}>Orchestration intelligente</div>
+                </div>
+                <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginTop:16}}>
+                  {[{l:"Chatbot RAG",c:"#3B82F6"},{l:"Reco ML",c:"#7C3AED"},{l:"NLP Tickets",c:"#F59E0B"},{l:"SEO IA",c:"#EF4444"},{l:"ML Prédictif",c:"#EC4899"},{l:"Growth IA",c:"#0891B2"}].map((m,i)=>(
+                    <div key={i} style={{padding:"10px",borderRadius:8,background:`${m.c}10`,border:`1px solid ${m.c}30`,textAlign:"center"}}>
+                      <div style={{fontSize:11,fontWeight:700,color:m.c}}>{m.l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Résultats */}
+              <div>
+                <div style={{fontSize:12,fontWeight:700,color:muted,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:12}}>Résultats attendus</div>
+                {["+15% conversion","+20% panier moyen","-30% coûts support","x10 contenu SEO","+40% trafic organique","-25% ruptures stock"].map((r,i)=>(
+                  <div key={i} style={{padding:"8px 12px",background:"#F0FDF4",borderRadius:8,marginBottom:4,fontSize:13,color:green,fontWeight:600}}>{r}</div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Poles impactés */}
+          <h2 style={{fontSize:18,fontWeight:700,marginBottom:16}}>Pôles impactés par l’IA</h2>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,marginBottom:32}}>
+            {[
+              {name:"Support Client",color:"#3B82F6",items:["Chatbot RAG autonome","Catégorisation NLP tickets","Hub centralisation 10 MP","Suggestions réponses auto"]},
+              {name:"Marketing & SEO",color:"#EF4444",items:["Pipeline contenu SEO x10","Optimisation SEA IA","Personnalisation parcours","CRO tunnel d'achat"]},
+              {name:"E-Commerce",color:"#7C3AED",items:["Moteur reco conversationnel","Cross-sell intelligent","A/B testing IA","Fiches produits optimisées"]},
+              {name:"Logistique",color:"#F59E0B",items:["Prédiction demande ML","Alertes réapprovisionnement","Prédiction retours","Optimisation flux"]},
+              {name:"Direction",color:green,items:["Dashboard ROI temps réel","Prédictions business","Reporting automatisé","Pilotage stratégique"]},
+              {name:"Administration",color:"#64748B",items:["Automatisation workflows","Relances devis auto","Reporting automatisé"]},
+            ].map((pl,i)=>(
+              <div key={i} style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,overflow:"hidden"}}>
+                <div style={{padding:"4px 0",background:pl.color}} />
+                <div style={{padding:"18px"}}>
+                  <div style={{fontSize:14,fontWeight:700,color:pl.color,marginBottom:10}}>{pl.name}</div>
+                  {pl.items.map((item,j)=>(
+                    <div key={j} style={{padding:"5px 0",fontSize:13,color:"#475569",borderBottom:j<pl.items.length-1?`1px solid ${bdr}`:"none",display:"flex",gap:8}}>
+                      <span style={{color:pl.color}}>→</span>{item}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </>}
+
+        {/* ========= ROADMAP ========= */}
+        {activeTab==="roadmap" && <>
+          {/* Timeline */}
+          <div style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"28px 32px",marginBottom:24}}>
+            <div style={{display:"flex",alignItems:"center",position:"relative"}}>
+              <div style={{position:"absolute",top:16,left:"4%",right:"4%",height:3,background:"#E2E8F0",borderRadius:2}} />
+              <div style={{position:"absolute",top:16,left:"4%",height:3,background:blue,borderRadius:2,width:`${(activePhase/5)*92}%`,transition:"width .4s"}} />
+              {phases.map((ph,i)=>(
+                <div key={i} onClick={()=>{setActivePhase(i);setExpandedAction(null);}} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",position:"relative",zIndex:2,cursor:"pointer"}}>
+                  <div style={{
+                    width:activePhase===i?36:24,height:activePhase===i?36:24,borderRadius:"50%",
+                    background:i<=activePhase?blue:"#fff",border:i<=activePhase?"none":`2px solid #CBD5E1`,
+                    display:"flex",alignItems:"center",justifyContent:"center",
+                    color:i<=activePhase?"#fff":"#94A3B8",fontSize:activePhase===i?14:11,fontWeight:700,
+                    transition:"all .3s",boxShadow:activePhase===i?"0 4px 12px rgba(37,99,235,0.3)":"none",
+                  }}>{ph.month.replace("M","")}</div>
+                  <div style={{textAlign:"center",marginTop:10}}>
+                    <div style={{fontSize:12,fontWeight:activePhase===i?700:500,color:activePhase===i?"#0F172A":"#94A3B8"}}>{ph.title}</div>
+                    {ph.isKeyMilestone && <div style={{fontSize:10,color:"#F59E0B",fontWeight:600,marginTop:2}}>★ Jalon clé</div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Phase content */}
+          <div style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,overflow:"hidden"}}>
+            {/* Phase header */}
+            <div style={{padding:"24px 28px",borderBottom:`1px solid ${bdr}`,display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
+              <div>
+                <div style={{display:"flex",alignItems:"center",gap:10}}>
+                  <span style={{fontSize:22,fontWeight:800,color:blue}}>{p.month}</span>
+                  <span style={{fontSize:18,fontWeight:700}}>{p.title}</span>
+                  <span style={{padding:"4px 12px",borderRadius:20,background:`${(p.lotColor||blue)}10`,color:p.lotColor||blue,fontSize:11,fontWeight:600}}>{p.lot}</span>
+                </div>
+                {p.subtitle && <div style={{fontSize:13,color:muted,marginTop:4}}>{p.subtitle}</div>}
+              </div>
+              <div style={{display:"flex",gap:8}}>
+                <button onClick={()=>setActivePhase(Math.max(0,activePhase-1))} style={{padding:"8px 16px",borderRadius:8,border:`1px solid ${bdr}`,background:"#fff",color:muted,fontSize:12,cursor:"pointer",fontFamily:"inherit",fontWeight:500}}>← Précédent</button>
+                <button onClick={()=>setActivePhase(Math.min(5,activePhase+1))} style={{padding:"8px 16px",borderRadius:8,border:"none",background:blue,color:"#fff",fontSize:12,cursor:"pointer",fontFamily:"inherit",fontWeight:600}}>Suivant →</button>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div style={{padding:"20px 28px",borderBottom:`1px solid ${bdr}`,fontSize:14,color:"#475569",lineHeight:1.7}}>{p.description}</div>
+
+            {/* Actions */}
+            <div style={{padding:"20px 28px"}}>
+              <div style={{fontSize:13,fontWeight:700,color:muted,textTransform:"uppercase",letterSpacing:"0.03em",marginBottom:14}}>Actions détaillées</div>
+              {p.actions.map((a,i)=>(
+                <div key={i} onClick={()=>setExpandedAction(expandedAction===i?null:i)} style={{
+                  padding:"16px",marginBottom:8,borderRadius:10,cursor:"pointer",
+                  background:expandedAction===i?"#F8FAFC":"#fff",
+                  border:`1px solid ${expandedAction===i?blue+"40":bdr}`,
+                  transition:"all .2s",
+                }}>
+                  <div style={{display:"flex",alignItems:"center",gap:10}}>
+                    <span style={{padding:"3px 10px",borderRadius:6,background:(typeColors[a.type]?.bg||"#EFF6FF"),color:(typeColors[a.type]?.text||blue),fontSize:11,fontWeight:700}}>{typeLabels[a.type]||a.type}</span>
+                    <span style={{fontSize:14,fontWeight:600,color:"#1E293B"}}>{a.title}</span>
+                    <span style={{marginLeft:"auto",color:"#CBD5E1",fontSize:16}}>{expandedAction===i?"−":"+"}</span>
+                  </div>
+                  {expandedAction===i && <div style={{marginTop:12,fontSize:13,color:"#64748B",lineHeight:1.8,paddingLeft:4}}>{a.detail}</div>}
+                </div>
+              ))}
+            </div>
+
+            {/* Livrables + KPI */}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderTop:`1px solid ${bdr}`}}>
+              <div style={{padding:"20px 28px",borderRight:`1px solid ${bdr}`}}>
+                <div style={{fontSize:13,fontWeight:700,color:muted,textTransform:"uppercase",letterSpacing:"0.03em",marginBottom:12}}>Livrables</div>
+                {p.livrables.map((l,i)=>(
+                  <div key={i} style={{padding:"8px 0",borderBottom:`1px solid #F1F5F9`,display:"flex",gap:8,fontSize:13,color:"#334155"}}>
+                    <span style={{color:green}}>✓</span>{l}
+                  </div>
+                ))}
+              </div>
+              <div style={{padding:"20px 28px"}}>
+                <div style={{fontSize:13,fontWeight:700,color:muted,textTransform:"uppercase",letterSpacing:"0.03em",marginBottom:12}}>KPI cibles</div>
+                {p.roi.metrics.map((m,i)=>(
+                  <div key={i} style={{padding:"8px 0",borderBottom:`1px solid #F1F5F9`,display:"flex",gap:8,fontSize:13,color:"#334155"}}>
+                    <span style={{color:blue}}>→</span>{m}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ROI + Pedagogie */}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",borderTop:`1px solid ${bdr}`}}>
+              <div style={{padding:"20px 28px",borderRight:`1px solid ${bdr}`,background:"#F0FDF4"}}>
+                <div style={{fontSize:12,fontWeight:700,color:green,textTransform:"uppercase",letterSpacing:"0.03em",marginBottom:8}}>Impact ROI — {p.roi.title}</div>
+                <div style={{fontSize:13,color:"#475569",lineHeight:1.7}}>{p.roi.detail}</div>
+              </div>
+              <div style={{padding:"20px 28px",background:"#FFFBEB"}}>
+                <div style={{fontSize:12,fontWeight:700,color:"#D97706",textTransform:"uppercase",letterSpacing:"0.03em",marginBottom:8}}>Pédagogie — {p.pedagogie.title}</div>
+                <div style={{fontSize:13,color:"#475569",lineHeight:1.7}}>{p.pedagogie.detail}</div>
+              </div>
+            </div>
+          </div>
+        </>}
+
+        {/* ========= ROI ========= */}
+        {activeTab==="roi" && <>
+          <div style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"40px",textAlign:"center",marginBottom:24}}>
+            <div style={{fontSize:13,fontWeight:600,color:muted,textTransform:"uppercase",letterSpacing:"0.05em"}}>Retour sur investissement projeté à 12 mois</div>
+            <div style={{fontSize:56,fontWeight:900,color:blue,marginTop:12,letterSpacing:"-0.03em"}}>x3,5 à x9</div>
+            <div style={{fontSize:18,color:"#475569",marginTop:8}}>150 000 – 300 000 € de CA supplémentaire</div>
+          </div>
+
+          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:24}}>
+            {roiMetrics.map((m,i)=>(
+              <div key={i} style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"20px"}}>
+                <div style={{fontSize:12,color:muted,fontWeight:500}}>{m.label}</div>
+                <div style={{fontSize:26,fontWeight:800,color:m.color,marginTop:6,letterSpacing:"-0.02em"}}>{m.target}</div>
+                <div style={{fontSize:12,color:"#94A3B8",marginTop:8,lineHeight:1.5}}>{m.detail}</div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"28px"}}>
+            <div style={{fontSize:13,fontWeight:700,color:muted,textTransform:"uppercase",letterSpacing:"0.03em",marginBottom:16}}>Montée en puissance</div>
+            {[{p:"Mois 1-2",pct:5,l:"Diagnostic & cadrage",c:"#3B82F6"},{p:"Mois 3",pct:20,l:"Premiers quick wins",c:"#F59E0B"},{p:"Mois 4",pct:45,l:"Montée en puissance",c:"#7C3AED"},{p:"Mois 5",pct:65,l:"Résultats mesurés",c:"#10B981"},{p:"Mois 6",pct:80,l:"Production complète",c:"#059669"},{p:"Mois 7-12",pct:100,l:"ROI cumulé",c:blue}].map((s,i)=>(
+              <div key={i} style={{display:"flex",alignItems:"center",gap:16,padding:"12px 0",borderBottom:i<5?`1px solid #F1F5F9`:"none"}}>
+                <span style={{width:70,fontSize:13,fontWeight:600,color:s.c}}>{s.p}</span>
+                <div style={{flex:1,background:"#F1F5F9",borderRadius:4,height:8}}>
+                  <div style={{height:8,borderRadius:4,background:s.c,width:`${s.pct}%`,transition:"width .4s"}} />
+                </div>
+                <span style={{fontSize:13,color:"#64748B",width:160}}>{s.l}</span>
+                <span style={{fontSize:14,fontWeight:700,color:s.c,width:40,textAlign:"right"}}>{s.pct}%</span>
+              </div>
+            ))}
+          </div>
+        </>}
+
+        {/* ========= SUBSIDIES ========= */}
+        {activeTab==="subs" && <>
+          <div style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"36px",textAlign:"center",marginBottom:24}}>
+            <div style={{fontSize:13,fontWeight:600,color:muted,textTransform:"uppercase",letterSpacing:"0.05em"}}>Économies estimées sur le projet</div>
+            <div style={{fontSize:44,fontWeight:900,color:blue,marginTop:12}}>16 500 – 27 000 €</div>
+          </div>
+
+          {subsidies.map((s,i)=>(
+            <div key={i} style={{background:card,borderRadius:12,border:`1px solid ${bdr}`,padding:"24px",marginBottom:12,borderLeft:`4px solid ${s.color}`}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",flexWrap:"wrap",gap:16}}>
+                <div style={{flex:1}}>
+                  <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
+                    <span style={{fontSize:17,fontWeight:700}}>{s.name}</span>
+                    <span style={{padding:"3px 10px",borderRadius:20,background:`${s.color}10`,color:s.color,fontSize:11,fontWeight:600}}>{s.lot}</span>
+                    <span style={{padding:"3px 10px",borderRadius:20,background:"#F0FDF4",color:green,fontSize:11,fontWeight:600}}>✓ {s.status}</span>
+                  </div>
+                  <div style={{fontSize:14,color:"#475569",lineHeight:1.6,marginBottom:12}}>{s.detail}</div>
+                  <div style={{fontSize:12,fontWeight:600,color:muted,marginBottom:4}}>Conditions</div>
+                  <div style={{fontSize:13,color:"#64748B",lineHeight:1.6,marginBottom:12}}>{s.conditions}</div>
+                  <div style={{fontSize:12,fontWeight:600,color:muted,marginBottom:4}}>Action requise</div>
+                  <div style={{fontSize:13,color:"#334155",lineHeight:1.6,fontWeight:500}}>{s.action}</div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:11,color:muted}}>Estimation</div>
+                  <div style={{fontSize:28,fontWeight:800,color:s.color}}>{s.amount}</div>
+                  <div style={{fontSize:12,color:"#94A3B8",marginTop:4}}>Taux : {s.rate}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <div style={{background:"#FFFBEB",borderRadius:12,border:"1px solid #FDE68A",padding:"20px",marginTop:20}}>
+            <div style={{fontSize:13,fontWeight:700,color:"#D97706",marginBottom:8}}>Structure de facturation</div>
+            <div style={{fontSize:13,color:"#92400E",lineHeight:1.7}}>Projet découpé en 3 lots distincts alignés sur les dispositifs d’aide. Chaque facture mentionne le lot, l'intitulé et les livrables. Les montants sont des estimations — l'éligibilité définitive dépend de l'instruction des dossiers.</div>
+          </div>
+        </>}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Roadmap />);
+</script>
+</body>
+</html>

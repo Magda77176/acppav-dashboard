@@ -1,0 +1,152 @@
+[
+  {
+    "id": "infinity-medical",
+    "name": "💉 Infinity Medical",
+    "desc": "SEO/acquisition pour chirurgiens & dentistes. CRM ~36K prospects, LinkedIn outreach, emails.",
+    "status": "active",
+    "category": "Agence",
+    "progress": 35,
+    "metrics": {"crm": "~36K", "sites": "2343", "linkedin_msgs": 6, "emails_sent": 0},
+    "nextAction": "Blinder CRM + continuer LinkedIn 10 msg/jour"
+  },
+  {
+    "id": "saphir-noir-photo",
+    "name": "📸 Saphir Noir — Photographes",
+    "desc": "Portfolios web + SEO local + prise de RDV pour photographes. France entière.",
+    "status": "active",
+    "category": "Agence",
+    "progress": 20,
+    "metrics": {"prospects": 50, "emails_sent": 30, "avec_email": 29, "avec_tel": 46},
+    "nextAction": "Batches Lille, Rennes, Strasbourg demain"
+  },
+  {
+    "id": "saphir-noir-mariage",
+    "name": "💒 Saphir Noir — Mariages",
+    "desc": "Sites design + SEO local + réservation pour salles & domaines de mariage. Pitch : 70% des couples éliminent en 10s.",
+    "status": "active",
+    "category": "Agence",
+    "progress": 5,
+    "metrics": {"found_siret": 2, "emails_perso": 1, "sent": 0},
+    "nextAction": "Scale pipeline SIRET→Societe.com sur plus de régions"
+  },
+  {
+    "id": "agence-eve",
+    "name": "🏗️ Agence d'Eve — BTP",
+    "desc": "SEO/acquisition pour artisans BTP (électriciens, plombiers). Vibe coding.",
+    "status": "planned",
+    "category": "Agence",
+    "progress": 5,
+    "metrics": {},
+    "nextAction": "Lancer prospection quand Medical + Photo stabilisés"
+  },
+  {
+    "id": "infinity-call-bot",
+    "name": "📞 Infinity Call Bot IA",
+    "desc": "Bot appels IA avec Twilio + Vapi. Assistant Sophie. Numéro FR +33 1 59 58 06 69.",
+    "status": "blocked",
+    "category": "Produit",
+    "progress": 60,
+    "metrics": {"numero_fr": "+33 1 59 58 06 69", "assistant": "Sophie", "twilio_bundle": "approuvé"},
+    "nextAction": "Voice calling désactivé au niveau compte Twilio — ticket support nécessaire"
+  },
+  {
+    "id": "acppav",
+    "name": "🎓 ACPPAV — Contenu SEO",
+    "desc": "Création contenu SEO pour ACPPAV (centre formation préparateurs en pharmacie). Dashboard Vercel + articles WordPress.",
+    "status": "active",
+    "category": "Client",
+    "progress": 70,
+    "metrics": {"articles": "10+", "seo_scores": "75-93/100", "dashboard": "acppav.vercel.app"},
+    "nextAction": "Nouveaux articles + optimisation scores restants"
+  },
+  {
+    "id": "ici-pour-gagner",
+    "name": "💰 IciPourGagner",
+    "desc": "Blog SEO affiliation. 6 piliers : revenus en ligne, investissements, cashback, side hustle, paris sportifs, formations.",
+    "status": "active",
+    "category": "Affiliation",
+    "progress": 45,
+    "metrics": {"articles_publiés": "50+", "keywords_total": 30, "crons": "3 batchs/jour"},
+    "nextAction": "Calendrier éditorial épuisé (30/30) — besoin nouveaux keywords"
+  },
+  {
+    "id": "konnecting-people",
+    "name": "🤝 Konnecting People",
+    "desc": "Scraping panélistes (Toluna/iSay/YouGov) via Trustpilot → emails → jeu concours → panel IP. Objectif 300K emails.",
+    "status": "active",
+    "category": "Produit",
+    "progress": 25,
+    "metrics": {"toluna_avis": "212K", "isay_avis": "56K", "yougov_avis": "99K", "hit_rate": "100%", "emails_verified": 3},
+    "nextAction": "Scraper Trustpilot en masse via Chrome Bridge (pagination illimitée)"
+  },
+  {
+    "id": "emelia",
+    "name": "📧 Emelia — E-mailing",
+    "desc": "Plateforme cold email pour campagnes de prospection. Envoi séquences automatisées.",
+    "status": "active",
+    "category": "Outil",
+    "progress": 30,
+    "metrics": {"emails_today": 30, "from": "magdaleonsullivan2@gmail.com"},
+    "nextAction": "Configurer séquences follow-up automatiques"
+  },
+  {
+    "id": "linkedin-outreach",
+    "name": "🔗 LinkedIn Outreach",
+    "desc": "Prospection LinkedIn : invitations 2e degré + messages 1er degré. Dentistes/chirurgiens.",
+    "status": "active",
+    "category": "Prospection",
+    "progress": 15,
+    "metrics": {"msgs_envoyés": 6, "invitations": 4, "premium": "expiré"},
+    "nextAction": "Continuer messages 1er degré (pas de limite). Premium expiré = 3 notes/mois max."
+  },
+  {
+    "id": "whale-dashboard",
+    "name": "🐋 Whale Tracking",
+    "desc": "Tracker paris sportifs baleines. Dashboard Vercel. Directive Sullivan : n'oublie jamais.",
+    "status": "active",
+    "category": "Trading",
+    "progress": 50,
+    "metrics": {"dashboard": "whale-dashboard-ivory.vercel.app"},
+    "nextAction": "Update quotidien résultats"
+  },
+  {
+    "id": "money-brain",
+    "name": "🧠 Money Brain",
+    "desc": "Veille quotidienne : Qwen scrape HN/Reddit/PH → Opus analyse → Top 3 idées + Wild Card.",
+    "status": "active",
+    "category": "Veille",
+    "progress": 80,
+    "metrics": {"cost_per_run": "~$0.50", "architecture": "Qwen local + Opus"},
+    "nextAction": "Fix erreur Service overloaded sur cron 8h UTC"
+  },
+  {
+    "id": "mission-control",
+    "name": "🎛️ Mission Control",
+    "desc": "Dashboard custom Next.js pour orchestrer tous les agents et projets. Inspiré Alex Finn.",
+    "status": "active",
+    "category": "Infrastructure",
+    "progress": 60,
+    "metrics": {"pages": 9, "port": 3333, "url": "76.13.37.253:3333"},
+    "nextAction": "Ajouter tous les projets manquants + connecter crons live"
+  },
+  {
+    "id": "openclaw-france",
+    "name": "🇫🇷 OpenClaw France",
+    "desc": "Réseau 6 sites SEO liés à OpenClaw.",
+    "status": "planned",
+    "category": "SEO",
+    "progress": 10,
+    "metrics": {},
+    "nextAction": "Lancer quand capacité dispo"
+  },
+  {
+    "id": "infinity-ia",
+    "name": "🤖 Infinity IA",
+    "desc": "Site vitrine IA pour Infinity Medical. Clone style Vapi. En pause.",
+    "status": "paused",
+    "category": "Produit",
+    "progress": 20,
+    "metrics": {},
+    "nextAction": "En pause — reprendre après Call Bot IA"
+  }
+]

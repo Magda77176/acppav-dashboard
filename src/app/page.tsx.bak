@@ -1,0 +1,478 @@
+"use client";
+import { useEffect, useState, useRef, ErrorInfo } from "react";
+import Link from "next/link";
+import React from "react";
+
+// Error boundary to catch render crashes
+class DashboardErrorBoundary extends React.Component<{children: React.ReactNode}, {error: Error | null}> {
+  constructor(props: any) { super(props); this.state = { error: null }; }
+  static getDerivedStateFromError(error: Error) { return { error }; }
+  componentDidCatch(error: Error, info: ErrorInfo) { console.error("Dashboard crash:", error, info); }
+  render() {
+    if (this.state.error) return (
+      <div style={{padding: 40, color: '#f85149', fontFamily: 'monospace', background: '#0d1117', minHeight: '100vh'}}>
+        <h2>❌ DASHBOARD RENDER ERROR</h2>
+        <pre style={{color: '#8b949e', marginTop: 16}}>{this.state.error.message}</pre>
+        <pre style={{color: '#6e7681', marginTop: 8, fontSize: 11}}>{this.state.error.stack}</pre>
+        <button onClick={() => window.location.reload()} style={{marginTop: 20, padding: '8px 16px', background: '#238636', color: '#fff', border: 'none', borderRadius: 6, cursor: 'pointer'}}>
+          🔄 Reload
+        </button>
+      </div>
+    );
+    return this.props.children;
+  }
+}
+
+function DashboardInner() {
+  const [data, setData] = useState<any>(null);
+  const [monitoring, setMonitoring] = useState<any>(null);
+  const [gcp, setGcp] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [tick, setTick] = useState(0);
+  const activityCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    // Load dashboard first (fast), then monitoring + GCP async
+    fetch("/api/dashboard").then(r => r.json()).then(d => {
+      setData(d);
+      setLoading(false);
+    }).catch(() => setLoading(false));
+    
+    // Load monitoring separately (don't block main render)
+    fetch("/api/monitoring").then(r => r.json()).then(m => setMonitoring(m)).catch(() => {});
+    fetch("/api/gcp-metrics").then(r => r.json()).then(g => setGcp(g)).catch(() => {});
+    // Refresh GCP metrics every 30s
+    const gcpInterval = setInterval(() => {
+      fetch("/api/gcp-metrics").then(r => r.json()).then(g => setGcp(g)).catch(() => {});
+    }, 30000);
+    return () => clearInterval(gcpInterval);
+  }, []);
+
+  // Subtle animation tick
+  useEffect(() => {
+    const interval = setInterval(() => setTick(t => t + 1), 80);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Activity sparkline canvas
+  useEffect(() => {
+    const canvas = activityCanvasRef.current;
+    if (!canvas || !monitoring || !monitoring.dailyActivity || !monitoring.dailyActivity.length) return;
+
+    const ctx = canvas.getContext('2d')!;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * window.devicePixelRatio;
+    canvas.height = rect.height * window.devicePixelRatio;
+    ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+    const w = rect.width, h = rect.height;
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, w, h);
+
+    const points = monitoring.dailyActivity.map((d: any) => d.bytes);
+    const max = Math.max(...points, 1);
+    const barW = Math.max(4, (w - 20) / points.length - 2);
+
+    points.forEach((val: number, i: number) => {
+      const x = 10 + i * (barW + 2);
+      const barH = (val / max) * (h - 20);
+      const alpha = 0.4 + (val / max) * 0.6;
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      ctx.fillRect(x, h - 10 - barH, barW, barH);
+    });
+  }, [monitoring, tick]);
+
+  if (loading) return (
+    <div className="flex items-center justify-center h-96">
+      <div className="w-5 h-5 border border-gray-700 border-t-white" style={{animation: 'spin 1s linear infinite'}} />
+    </div>
+  );
+  if (!data) return <p className="text-red-400 font-mono text-sm">ERREUR CHARGEMENT</p>;
+
+  const s = data.stats;
+  const sys = monitoring?.system;
+  const qdrant = monitoring?.qdrant;
+  const costData = monitoring?.costTracking || [];
+  const totalCost = costData.reduce((s: number, e: any) => s + (e.cost || 0), 0);
+  const todayCost = costData.length > 0 ? costData[costData.length - 1]?.cost || 0 : 0;
+
+  return (
+    <div className="max-w-7xl mx-auto space-y-4" style={{ fontFamily: "'Courier New', 'Consolas', monospace" }}>
+
+      {/* === HEADER === */}
+      <div className="border border-gray-800 bg-black p-4 sm:p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3">
+            <h1 className="text-sm sm:text-base font-bold text-white" style={{ letterSpacing: '0.15em' }}>
+              COMMAND CENTER
+            </h1>
+            <div className="flex items-center gap-1.5">
+              <div className="w-1.5 h-1.5 bg-green-400" style={{ animation: 'pulse 2s infinite' }} />
+              <span className="text-[9px] text-green-400" style={{ letterSpacing: '0.1em' }}>ONLINE</span>
+            </div>
+          </div>
+          {sys && (
+            <div className="hidden sm:flex items-center gap-4 text-[10px] text-gray-600">
+              <span>MEM {sys.memory.percent}%</span>
+              <span>LOAD {sys.loadAvg[0]?.toFixed(1)}</span>
+              <span>AGENTS {s.agentsCount}</span>
+            </div>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px]" style={{ letterSpacing: '0.05em' }}>
+          {[
+            { label: 'Infinity Medical', color: '#60a5fa' },
+            { label: 'Saphir Noir', color: '#a78bfa' },
+            { label: "Agence d'Eve", color: '#4ade80' },
+            { label: 'IciPourGagner', color: '#fbbf24' },
+            { label: 'ACPPAV', color: '#f87171' },
+          ].map(p => (
+            <span key={p.label} style={{ color: p.color }}>● {p.label}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* === KPI ROW === */}
+      <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <KpiCard value={s.emailsSent} label="EMAILS" sub="envoyés" accent="#4ade80" />
+        <KpiCard value={s.linkedinSent} label="LINKEDIN" sub="messages" accent="#60a5fa" />
+        <KpiCard value={s.photoProspects} label="PROSPECTS" sub="pipeline" accent="#a78bfa" />
+        <KpiCard value={s.campaignsDone} label="CAMPAGNES" sub={`${s.campaignsPlanned} plan.`} accent="#fbbf24" />
+        <KpiCard value={s.agentsCount} label="AGENTS" sub={`${s.skillsCount} skills`} accent="#f472b6" />
+        <KpiCard value={s.tasksBacklog + s.tasksInProgress} label="TÂCHES" sub={`${s.tasksDone} done`} accent="#38bdf8" />
+      </div>
+
+      {/* === SYSTEM STATUS BAR === */}
+      {monitoring && (
+        <div className="border border-gray-800 bg-black p-3 sm:p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[10px] sm:text-xs font-mono">
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>QDRANT RAG</span>
+              <span className={qdrant?.points > 0 ? 'text-green-400' : 'text-red-400'}>
+                {qdrant?.points || 0} VECTORS {qdrant?.points > 0 ? '●' : '○'}
+              </span>
+            </div>
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>COST TODAY</span>
+              <span className="text-white">${todayCost.toFixed(2)} <span className="text-gray-600">/ ${totalCost.toFixed(2)} total</span></span>
+            </div>
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>DOCKER</span>
+              <span className={monitoring.docker?.some((d: any) => d.online) ? 'text-green-400' : 'text-red-400'}>
+                {monitoring.docker?.filter((d: any) => d.online).length || 0}/{monitoring.docker?.length || 0} UP
+              </span>
+            </div>
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>PM2</span>
+              <span className="text-green-400">
+                {sys?.pm2.filter((p: any) => p.status === 'online').length || 0}/{sys?.pm2.length || 0} ONLINE
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* === GCP OBSERVABILITY === */}
+      {gcp && (
+        <div className="border border-gray-800 bg-black p-3 sm:p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <h2 className="text-[10px] text-gray-500 font-bold" style={{ letterSpacing: '0.15em' }}>
+                ☁️ GCP PLATFORM
+              </h2>
+              <div className="flex items-center gap-1">
+                <div className={`w-1.5 h-1.5 ${gcp.status === 'healthy' ? 'bg-green-400' : 'bg-red-400'}`} 
+                     style={{ animation: 'pulse 2s infinite' }} />
+                <span className={`text-[9px] ${gcp.status === 'healthy' ? 'text-green-400' : 'text-red-400'}`} 
+                      style={{ letterSpacing: '0.1em' }}>
+                  {gcp.status === 'healthy' ? 'HEALTHY' : 'DEGRADED'}
+                </span>
+              </div>
+            </div>
+            <Link href="/gcp" className="text-[10px] text-gray-600 hover:text-white" style={{ letterSpacing: '0.1em' }}>
+              DÉTAILS →
+            </Link>
+          </div>
+
+          {/* GCP Metrics Row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-[10px] sm:text-xs font-mono">
+            {/* Cloud Run Services */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>CLOUD RUN</span>
+              <span className={gcp.cloudRun?.healthyServices === gcp.cloudRun?.totalServices ? 'text-green-400' : 'text-orange-400'}>
+                {gcp.cloudRun?.healthyServices || 0}/{gcp.cloudRun?.totalServices || 0} SERVICES
+              </span>
+            </div>
+
+            {/* CPU */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>CPU</span>
+              <span className={`${(gcp.infrastructure?.cpu || 0) > 80 ? 'text-red-400' : (gcp.infrastructure?.cpu || 0) > 50 ? 'text-orange-400' : 'text-green-400'}`}>
+                {gcp.infrastructure?.cpu ?? '—'}%
+              </span>
+            </div>
+
+            {/* Memory */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>MEMORY</span>
+              <span className={`${(gcp.infrastructure?.memory || 0) > 80 ? 'text-red-400' : 'text-green-400'}`}>
+                {gcp.infrastructure?.memory ?? '—'}%
+              </span>
+            </div>
+
+            {/* Disk */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>DISK</span>
+              <span className={`${(gcp.infrastructure?.disk || 0) > 80 ? 'text-red-400' : 'text-green-400'}`}>
+                {gcp.infrastructure?.disk ?? '—'}%
+              </span>
+            </div>
+
+            {/* Logs */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>LOGS/H</span>
+              <span className="text-white">
+                {Object.values(gcp.logs?.counts || {}).reduce((a: number, b: any) => a + b, 0) as number}
+              </span>
+            </div>
+
+            {/* Errors */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>ERRORS</span>
+              <span className={`${(gcp.logs?.counts?.ERROR || 0) > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                {gcp.logs?.counts?.ERROR || 0}
+              </span>
+            </div>
+
+            {/* Alerts */}
+            <div>
+              <span className="text-gray-600 block" style={{ letterSpacing: '0.1em' }}>ALERTS</span>
+              <span className={`${(gcp.alerts?.activeIncidents || 0) > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                {gcp.alerts?.activeIncidents || 0} ACTIVE
+              </span>
+            </div>
+          </div>
+
+          {/* Cloud Run Services List */}
+          {gcp.cloudRun?.services?.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-gray-900">
+              <div className="flex flex-wrap gap-2">
+                {gcp.cloudRun.services.map((svc: any, i: number) => (
+                  <div key={i} className="flex items-center gap-1.5 px-2 py-1 border border-gray-800 hover:border-gray-700">
+                    <span className={`w-1 h-1 ${svc.ready ? 'bg-green-400' : 'bg-red-400'}`} />
+                    <span className="text-[9px] text-gray-400">{svc.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Recent Errors (if any) */}
+          {gcp.logs?.recentErrors?.length > 0 && (
+            <div className="mt-3 pt-3 border-t border-gray-900">
+              <span className="text-[9px] text-red-400 block mb-1.5" style={{ letterSpacing: '0.1em' }}>RECENT ERRORS</span>
+              {gcp.logs.recentErrors.slice(0, 3).map((err: any, i: number) => (
+                <div key={i} className="text-[10px] text-gray-500 py-1 border-b border-gray-900 last:border-0 flex gap-2">
+                  <span className="text-gray-700 shrink-0">
+                    {new Date(err.timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  <span className="text-gray-500 truncate">{typeof err.message === 'string' ? err.message.slice(0, 100) : '—'}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* === MAIN GRID === */}
+      <div className="grid lg:grid-cols-3 gap-3">
+
+        {/* CAMPAIGNS — 2 cols */}
+        <div className="lg:col-span-2 border border-gray-800 bg-black p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-[10px] text-gray-500 font-bold" style={{ letterSpacing: '0.15em' }}>
+              <span className="inline-block w-1.5 h-1.5 bg-green-400 mr-2" style={{ animation: 'pulse 2s infinite' }} />
+              DERNIÈRES CAMPAGNES
+            </h2>
+            <Link href="/campaigns" className="text-[10px] text-gray-600 hover:text-white" style={{ letterSpacing: '0.1em' }}>
+              VOIR TOUT →
+            </Link>
+          </div>
+          <div className="space-y-0.5 max-h-[320px] overflow-y-auto">
+            {data.recentCampaigns.length === 0 ? (
+              <p className="text-gray-700 text-xs">Aucune campagne</p>
+            ) : data.recentCampaigns.slice(0, 8).map((c: any, i: number) => (
+              <div key={i} className="flex items-center justify-between py-2 px-2 hover:bg-gray-950 text-[11px]">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <span className={`w-1.5 h-1.5 shrink-0 ${
+                    c.status === 'done' ? 'bg-green-400' : 
+                    c.status === 'paused' ? 'bg-orange-400' : 
+                    c.status === 'failed' ? 'bg-red-400' : 'bg-blue-400'
+                  }`} />
+                  <span className="text-gray-600 shrink-0">{c.date}</span>
+                  <span className="text-gray-400 truncate">{c.name}</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0 ml-2">
+                  {c.sent > 0 && <span className="text-gray-600">{c.sent}</span>}
+                  <span className={`text-[9px] px-1.5 py-0.5 border ${
+                    c.status === 'done' ? 'border-green-800 text-green-400' :
+                    c.status === 'paused' ? 'border-orange-800 text-orange-400' :
+                    c.status === 'failed' ? 'border-red-800 text-red-400' :
+                    'border-blue-800 text-blue-400'
+                  }`} style={{ letterSpacing: '0.08em' }}>
+                    {c.status === 'done' ? 'OK' : c.status === 'paused' ? 'PAUSE' : c.status?.toUpperCase()}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* AGENTS SIDEBAR */}
+        <div className="border border-gray-800 bg-black p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-[10px] text-gray-500 font-bold" style={{ letterSpacing: '0.15em' }}>
+              AGENTS ({data.agents.length})
+            </h2>
+            <Link href="/agents" className="text-[10px] text-gray-600 hover:text-white" style={{ letterSpacing: '0.1em' }}>
+              DÉTAILS →
+            </Link>
+          </div>
+          <div className="space-y-1 max-h-[320px] overflow-y-auto">
+            {data.agents.map((a: any, i: number) => (
+              <div key={i} className="flex items-center justify-between py-1.5 px-1 hover:bg-gray-950">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="w-1.5 h-1.5 bg-green-400 shrink-0" />
+                  <span className="text-[11px] text-gray-300 truncate">{a.name}</span>
+                </div>
+                <span className="text-[9px] text-gray-700">{a.lines}L</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* === PROJECTS + ACTIVITY === */}
+      <div className="grid lg:grid-cols-3 gap-3">
+
+        {/* PROJECTS — 2 cols */}
+        <div className="lg:col-span-2 border border-gray-800 bg-black p-4">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-[10px] text-gray-500 font-bold" style={{ letterSpacing: '0.15em' }}>PROJETS</h2>
+            <Link href="/projets" className="text-[10px] text-gray-600 hover:text-white" style={{ letterSpacing: '0.1em' }}>
+              VOIR TOUT →
+            </Link>
+          </div>
+          <div className="space-y-1">
+            {data.projects.slice(0, 6).map((p: any, i: number) => (
+              <div key={i} className="flex items-center justify-between py-2 px-2 hover:bg-gray-950 border-b border-gray-900 last:border-0">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <span className={`w-1.5 h-1.5 shrink-0 ${
+                    p.status === 'active' ? 'bg-green-400' :
+                    p.status === 'blocked' ? 'bg-red-400' :
+                    p.status === 'planned' ? 'bg-gray-600' : 'bg-orange-400'
+                  }`} />
+                  <span className="text-[11px] text-gray-300 truncate">{p.name}</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0 ml-2">
+                  {/* Progress bar */}
+                  <div className="w-12 sm:w-16 h-1 bg-gray-800 hidden sm:block">
+                    <div className="h-1 bg-white" style={{ width: `${p.progress || 0}%` }} />
+                  </div>
+                  <span className="text-[9px] text-gray-600 w-7 text-right">{p.progress || 0}%</span>
+                  <span className={`text-[9px] px-1.5 py-0.5 border ${
+                    p.priority === 'P1' ? 'border-red-800 text-red-400' :
+                    p.priority === 'P2' ? 'border-orange-800 text-orange-400' :
+                    'border-gray-700 text-gray-500'
+                  }`}>{p.priority || '—'}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ACTIVITY + MEMORY */}
+        <div className="space-y-3">
+          {/* Activity chart */}
+          <div className="border border-gray-800 bg-black p-3">
+            <h2 className="text-[10px] text-gray-500 font-bold mb-2" style={{ letterSpacing: '0.15em' }}>DAILY ACTIVITY</h2>
+            <canvas ref={activityCanvasRef} className="w-full h-16" style={{ imageRendering: 'pixelated' }} />
+          </div>
+
+          {/* Memory */}
+          <div className="border border-gray-800 bg-black p-3">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-[10px] text-gray-500 font-bold" style={{ letterSpacing: '0.15em' }}>MÉMOIRE DU JOUR</h2>
+              <Link href="/memory" className="text-[10px] text-gray-600 hover:text-white">→</Link>
+            </div>
+            {data.memory.exists ? (
+              <>
+                <p className="text-[10px] text-gray-600 mb-1">{data.memory.lines} lignes</p>
+                <pre className="text-[10px] text-gray-500 whitespace-pre-wrap bg-gray-950 p-2 max-h-[100px] overflow-y-auto border border-gray-900">
+                  {data.memory.preview}
+                </pre>
+              </>
+            ) : (
+              <p className="text-gray-700 text-[10px]">Pas de log aujourd'hui</p>
+            )}
+          </div>
+
+          {/* Cost summary */}
+          {costData.length > 0 && (
+            <div className="border border-gray-800 bg-black p-3">
+              <h2 className="text-[10px] text-gray-500 font-bold mb-2" style={{ letterSpacing: '0.15em' }}>COST TRACKING</h2>
+              <div className="space-y-1 text-[10px]">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">TODAY</span>
+                  <span className="text-white">${todayCost.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">TOTAL</span>
+                  <span className="text-green-400">${totalCost.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* === QUICK NAV (desktop only) === */}
+      <div className="hidden sm:grid grid-cols-4 lg:grid-cols-8 gap-1.5">
+        {[
+          { href: "/tasks", label: "TÂCHES" },
+          { href: "/pipeline", label: "PIPELINE" },
+          { href: "/monitoring", label: "MONITORING" },
+          { href: "/gcp", label: "GCP ☁️" },
+          { href: "/memory", label: "MÉMOIRE" },
+          { href: "/team", label: "ÉQUIPE" },
+          { href: "/calendar", label: "CALENDRIER" },
+          { href: "/revenue", label: "REVENUE" },
+          { href: "/office", label: "BUREAU 2D" },
+        ].map(q => (
+          <Link key={q.href} href={q.href} 
+            className="border border-gray-800 bg-black p-2.5 text-center hover:border-gray-600 transition-colors">
+            <span className="text-[9px] text-gray-500 block" style={{ letterSpacing: '0.08em' }}>{q.label}</span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function KpiCard({ value, label, sub, accent }: { value: number; label: string; sub: string; accent: string }) {
+  return (
+    <div className="border border-gray-800 bg-black p-3 overflow-hidden">
+      <div className="text-lg sm:text-xl font-bold" style={{ color: accent }}>{value}</div>
+      <p className="text-[9px] text-gray-500 mt-0.5" style={{ letterSpacing: '0.1em' }}>{label}</p>
+      <p className="text-[8px] text-gray-700 truncate">{sub}</p>
+    </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <DashboardErrorBoundary>
+      <DashboardInner />
+    </DashboardErrorBoundary>
+  );
+}

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "mod-1776170634360-netqzjbe3",
+    "articleFile": "medico-social-01-secretaire-medicale.md",
+    "demande": "réécrire l'article en parlant de secrétaire assistante médico-administrative et non secrétaire médicale",
+    "status": "completed",
+    "timestamp": "2026-04-14T12:43:54.360Z",
+    "error": null
+  },
+  {
+    "id": "mod-1776170634363-jxzwpms10",
+    "articleFile": "medico-social-05-cabinet-vs-hopital.md",
+    "demande": "réécrire l'article en parlant de secrétaire assistante médico-administrative et non secrétaire médicale",
+    "status": "completed",
+    "timestamp": "2026-04-14T12:43:54.363Z",
+    "error": null
+  },
+  {
+    "id": "mod-1776170634365-wsxryodgr",
+    "articleFile": "medico-social-04-secretaire-distance.md",
+    "demande": "réécrire l'article en parlant de secrétaire assistante médico-administrative et non secrétaire médicale",
+    "status": "completed",
+    "timestamp": "2026-04-14T12:43:54.365Z",
+    "error": null
+  },
+  {
+    "id": "mod-1776170634367-nnp7pq21i",
+    "articleFile": "pharmacie-02-salaire-preparateur.md",
+    "demande": "enlever cette partie : et la négociation salariale + changer le mot preparateur en préparateur",
+    "status": "completed",
+    "timestamp": "2026-04-14T12:43:54.367Z",
+    "error": null
+  }
+]

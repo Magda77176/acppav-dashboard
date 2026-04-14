@@ -1,0 +1,1485 @@
+[
+  {
+    "id": "camp-001",
+    "type": "email",
+    "name": "Photographes Paris/Bordeaux/Nice",
+    "date": "2026-03-03",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Paris",
+        "Bordeaux",
+        "Nice"
+      ],
+      "count": 18,
+      "sent": 18,
+      "template": "generic"
+    },
+    "result": "18/18 envoyés, 0 erreurs",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-002",
+    "type": "email",
+    "name": "Photographes Toulouse",
+    "date": "2026-03-03",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Toulouse"
+      ],
+      "count": 5,
+      "sent": 5,
+      "template": "personnalisé"
+    },
+    "result": "5/5 envoyés, personnalisés avec visite site",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-003",
+    "type": "email",
+    "name": "Photographes Évry/Essonne",
+    "date": "2026-03-03",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Évry",
+        "Essonne"
+      ],
+      "count": 2,
+      "sent": 2,
+      "template": "personnalisé"
+    },
+    "result": "2/2 envoyés",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-004",
+    "type": "email",
+    "name": "Photographes Nantes",
+    "date": "2026-03-03",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Nantes"
+      ],
+      "count": 5,
+      "sent": 5,
+      "template": "personnalisé"
+    },
+    "result": "5/5 envoyés",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-005",
+    "type": "linkedin",
+    "name": "LinkedIn msg → Iuri Abreu",
+    "date": "2026-03-03",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "profile": "Iuri Abreu",
+      "city": "Amiens"
+    },
+    "result": "Message envoyé 16:40 — Cabinet Dr Abreu, parcours Portugal→COSEM",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-006",
+    "type": "linkedin",
+    "name": "LinkedIn msg → Bruno Zamansky",
+    "date": "2026-03-03",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "profile": "Bruno Zamansky",
+      "city": "Paris 16e"
+    },
+    "result": "Message envoyé 16:44 — Cabinet de Passy, 25 ans exp",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-007",
+    "type": "linkedin",
+    "name": "4 invitations 2e degré",
+    "date": "2026-03-03",
+    "status": "done",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "profiles": [
+        "Frédéric Achache",
+        "Gabriel Besadoux",
+        "Anne Laure Medina",
+        "Anne Da Rocha"
+      ]
+    },
+    "result": "4 invitations envoyées (1 avec note perso, 3 sans)"
+  },
+  {
+    "id": "camp-008",
+    "type": "email",
+    "name": "Photographes Lille/Rennes/Strasbourg",
+    "date": "2026-03-04",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Lille",
+        "Rennes",
+        "Strasbourg"
+      ],
+      "count": 8,
+      "sent": 8,
+      "template": "personnalisé"
+    },
+    "result": "8/8 envoyés (Lille 4, Rennes 3, Strasbourg 1) — emails perso uniquement",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-009",
+    "type": "email",
+    "name": "Photographes Grenoble/Rouen",
+    "date": "2026-03-04",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Grenoble",
+        "Rouen"
+      ],
+      "count": 6,
+      "sent": 6,
+      "template": "personnalisé"
+    },
+    "result": "6/6 envoyés (Strasbourg 1, Grenoble 3, Rouen 2) — emails perso uniquement",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-010",
+    "type": "linkedin",
+    "name": "Messages 1er degré dentistes",
+    "date": "2026-03-04",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 5
+    },
+    "result": "Non exécuté le 04/03 — scraping sans résultats",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-011",
+    "type": "linkedin",
+    "name": "Invitations 2e degré dentistes",
+    "date": "2026-03-04",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Non exécuté le 04/03 — scraping sans résultats",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-05",
+    "type": "email",
+    "name": "Photographes Dijon/Clermont-Ferrand/Limoges",
+    "date": "2026-03-05",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Dijon",
+        "Clermont-Ferrand",
+        "Limoges"
+      ],
+      "count": 6,
+      "sent": 6,
+      "template": "personnalisé"
+    },
+    "result": "6/6 envoyés (Dijon 2, Clermont-Ferrand 2, Limoges 2) — session matin",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-mariage-2026-03-05",
+    "type": "email",
+    "name": "Domaines mariage Normandie/Bretagne",
+    "date": "2026-03-05",
+    "status": "skipped",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Normandie",
+        "Bretagne"
+      ],
+      "count": 0,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Skipped — 0 prospects identifiés + Mac occupé par candidatures freelance (21 envoyées)"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-05",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-05",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 0
+    },
+    "result": "Skipped — 0 prospects identifiés + Mac occupé par candidatures freelance (21 envoyées)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-05",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-05",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 0
+    },
+    "result": "Skipped — 0 prospects identifiés + Mac occupé par candidatures freelance (21 envoyées)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-06",
+    "type": "email",
+    "name": "Photographes Angers/Tours/Orléans",
+    "date": "2026-03-06",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Angers",
+        "Tours",
+        "Orléans"
+      ],
+      "count": 8,
+      "sent": 8,
+      "template": "personnalisé"
+    },
+    "result": "8/8 envoyés (Angers 4, Tours 2, Orléans 2) — emails perso v2, 0 erreurs",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-06",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-06",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Skipped — Mac offline (Sullivan Mac disconnected)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-06",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-06",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Skipped — Mac offline (Sullivan Mac disconnected)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-09",
+    "type": "email",
+    "name": "Photographes Perpignan/Nîmes/Avignon",
+    "date": "2026-03-09",
+    "status": "postponed",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Perpignan",
+        "Nîmes",
+        "Avignon"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Reporté: heartbeats du 09/03 n ont pas déclenché l exécution à temps. Reprogrammer le 10/03."
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-09",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-09",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Reporté: heartbeats du 09/03 n ont pas déclenché l exécution à temps. Reprogrammer le 10/03.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-09",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-09",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Reporté: heartbeats du 09/03 n ont pas déclenché l exécution à temps. Reprogrammer le 10/03.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-10",
+    "type": "email",
+    "name": "Photographes Saint-Étienne/Besançon/Amiens",
+    "date": "2026-03-10",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Saint-Étienne",
+        "Besançon",
+        "Amiens"
+      ],
+      "count": 4,
+      "sent": 4,
+      "template": "personnalisé"
+    },
+    "result": "4/4 emails envoyes: Philippe Rony (Saint-Etienne), Laure Brioschi + Cindy Giancarlo (Besancon), Camille Selosse (Amiens). Personnalises avec analyse site.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-mariage-2026-03-10",
+    "type": "email",
+    "name": "Domaines mariage Normandie/Bretagne",
+    "date": "2026-03-10",
+    "status": "done",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Normandie",
+        "Bretagne"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "4/4 emails envoyes (Domaine de la Balanderie, Chateau du Bois de la Salle, Domaine Le Mezo, Moulin d'Epouville). Personnalises."
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-10",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-10",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "3 messages envoyes: Ariel Frutos (Place Dentaire Paris 13e), Natalia Van Der Veen (Cabinet Dentaire Paris), Joelle PRIME (cabinet liberal Paris)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-10",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-10",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 2
+    },
+    "result": "2/5 invitations avec note: David Deneboude + Ana Rita Troca. Limite atteinte (0 invitations personnalisees restantes ce mois, + limite recherche profils sans Premium)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-11",
+    "type": "email",
+    "name": "Photographes Pau/Bayonne/La Rochelle",
+    "date": "2026-03-11",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Pau",
+        "Bayonne",
+        "La Rochelle"
+      ],
+      "count": 9,
+      "sent": 9,
+      "template": "personnalisé"
+    },
+    "result": "9/9 emails envoyés (Pau 3: Joakim/Elodie Frigot/Emilie Massal, Bayonne 2: Leo Guthertz/Lukas Gisbert, La Rochelle 4: Jonathan Boquillon/Jérôme Helliet/Florent/Brian). Batch en cours espacement 2-3min. Scraping Qwen vide → recherche manuelle.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-11",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-11",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 1
+    },
+    "result": "1 follow-up envoyé: Nexhat Demiroviq (SMILEFORLIFE Meudon, msg perso sur équipements). Jessy Bourguia déjà contacté + A RÉPONDU avec son tel (0616114361). João Paquete déjà contacté. Pas de nouveau 1er degré non-contacté.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-11",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-11",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 3
+    },
+    "result": "3 invitations envoyées (sans note): Florian LAURENT (chirurgien-dentiste ARS IdF), Sélin ALBAYRAK (responsable centre dentaire), Marie Noelle COPPA (directrice centre médical et dentaire). Toutes en attente.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-12",
+    "type": "email",
+    "name": "Photographes Lille/Rennes/Strasbourg",
+    "date": "2026-03-12",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Lille",
+        "Rennes",
+        "Strasbourg"
+      ],
+      "count": 4,
+      "sent": 4,
+      "template": "personnalisé"
+    },
+    "result": "4/4 envoyés (qualité > quantité). Lille 1, Rennes 2, Strasbourg 1. Tous personnalisés avec analyse site.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-mariage-2026-03-12",
+    "type": "email",
+    "name": "Domaines mariage Paris/Île-de-France",
+    "date": "2026-03-12",
+    "status": "done",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Paris",
+        "Île-de-France"
+      ],
+      "count": 4,
+      "sent": 4,
+      "template": "personnalisé"
+    },
+    "result": "4/4 envoyés. Ferme de Forest, Clos Magnitot, Ferme du Bois aux Dames, Ferme des Carneaux. Tous sites défaillants ciblés."
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-12",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-12",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Mac Sullivan offline — impossible d'accéder à LinkedIn. À relancer quand Mac connecté.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-12",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-12",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Mac Sullivan offline — impossible d'accéder à LinkedIn. À relancer quand Mac connecté.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-13",
+    "type": "email",
+    "name": "Photographes Perpignan/Nîmes/Avignon/Montpellier",
+    "date": "2026-03-13",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Perpignan",
+        "Nîmes",
+        "Avignon",
+        "Montpellier"
+      ],
+      "count": 13,
+      "sent": 13,
+      "template": "personnalisé"
+    },
+    "result": "13/13 envoyés. Perpignan 4 (Damien Gobron, Thibaut Marot, Hugo Hennequin, Math La Photo), Nîmes 4 (Manon Piovesan, Charlotte Lebourg, Nicolas Terraes, Laurianne Krupnik), Avignon 3 (Christelle Gilles, Nicolas Eudeline, Thomas Orsatelli), Multi-villes 1 (Guillaume Planat), Montpellier 1 (Margaux CG). Tous personnalisés avec analyse site. Espacement 2min.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-13",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-13",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 0
+    },
+    "result": "Mac Sullivan offline — impossible LinkedIn. Scraping Qwen vide (prospection-ready.json = 0 prospects).",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-13",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-13",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 0
+    },
+    "result": "Mac Sullivan offline — impossible LinkedIn. Scraping Qwen vide.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-27",
+    "type": "email",
+    "name": "Photographes Metz/Nancy/Reims",
+    "date": "2026-03-27",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Metz",
+        "Nancy",
+        "Reims"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-27",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-27",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-27",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-27",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-30",
+    "type": "email",
+    "name": "Photographes Saint-Étienne/Besançon/Amiens",
+    "date": "2026-03-30",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Saint-Étienne",
+        "Besançon",
+        "Amiens"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-30",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-30",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-30",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-30",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-03-31",
+    "type": "email",
+    "name": "Photographes Pau/Bayonne/La Rochelle",
+    "date": "2026-03-31",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Pau",
+        "Bayonne",
+        "La Rochelle"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-mariage-2026-03-31",
+    "type": "email",
+    "name": "Domaines mariage Aquitaine/Occitanie",
+    "date": "2026-03-31",
+    "status": "paused",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Aquitaine",
+        "Occitanie"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-03-31",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-03-31",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-03-31",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-03-31",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-04-01",
+    "type": "email",
+    "name": "Photographes Lille/Rennes/Strasbourg",
+    "date": "2026-04-01",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Lille",
+        "Rennes",
+        "Strasbourg"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13). prospection-ready.json = 0 prospects.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-01",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-01",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13). prospection-ready.json = 0 prospects.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-01",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-01",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused: Sullivan directive still active (2026-03-13). prospection-ready.json = 0 prospects.",
+    "pause_reason": "Sullivan directive 2026-03-13: stop LinkedIn messages until further notice"
+  },
+  {
+    "id": "camp-auto-photo-2026-04-02",
+    "type": "email",
+    "name": "Photographes Grenoble/Rouen/Montpellier",
+    "date": "2026-04-02",
+    "status": "in_progress",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Grenoble",
+        "Rouen",
+        "Montpellier"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "6 prospects trouvés (Grenoble 2, Rouen 2, Montpellier 2). 1 seul email perso valide (Alice Navarro). Emails pas encore envoyés — besoin enrichissement SIRET pour plus de contacts."
+  },
+  {
+    "id": "camp-auto-mariage-2026-04-02",
+    "type": "email",
+    "name": "Domaines mariage Loire/Bourgogne",
+    "date": "2026-04-02",
+    "status": "planned",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Loire",
+        "Bourgogne"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-02",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-02",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-02",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-02",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-photo-2026-04-03",
+    "type": "email",
+    "name": "Photographes Lyon/Marseille/Toulon",
+    "date": "2026-04-03",
+    "status": "done",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Lyon",
+        "Marseille",
+        "Toulon"
+      ],
+      "count": 20,
+      "sent": 6,
+      "template": "personnalisé"
+    },
+    "result": "6/8 envoyés (2 skippés: contact@ bloqué). Lyon: 2, Marseille: 1, Toulon: 3. Terminé 2026-04-03 09:44"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-03",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-03",
+    "status": "partial",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "1/3 messages envoyes. Teresa Cunha (Neuilly) done. Joelle PRIME + Ariel Frutos deja contactes le 10 mars. Reste: Remy Legrand, Natalia Van Der Veen."
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-03",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-03",
+    "status": "blocked",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Session LinkedIn expirée — login requis. Sullivan doit se reconnecter via le browser VPS."
+  },
+  {
+    "id": "camp-auto-photo-2026-04-06",
+    "type": "email",
+    "name": "Photographes Metz/Nancy/Reims",
+    "date": "2026-04-06",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Metz",
+        "Nancy",
+        "Reims"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused 2026-04-06: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-06",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-06",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-06",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-06",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-photo-2026-04-07",
+    "type": "email",
+    "name": "Photographes Brest/Caen/Le Havre",
+    "date": "2026-04-07",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Brest",
+        "Caen",
+        "Le Havre"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused 2026-04-06: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-mariage-2026-04-07",
+    "type": "email",
+    "name": "Domaines mariage Loire/Bourgogne",
+    "date": "2026-04-07",
+    "status": "planned",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Loire",
+        "Bourgogne"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-07",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-07",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-07",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-07",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-photo-2026-04-08",
+    "type": "email",
+    "name": "Photographes Perpignan/Nîmes/Avignon",
+    "date": "2026-04-08",
+    "status": "paused",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Perpignan",
+        "Nîmes",
+        "Avignon"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": "Auto-paused 2026-04-06: Sullivan directive still active (2026-03-13)",
+    "pause_reason": "Sullivan directive 2026-03-13: stop photo emails for now"
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-08",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-08",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-08",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-08",
+    "status": "paused",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": "Auto-paused 2026-04-06: LinkedIn session expired — login required before resuming",
+    "pause_reason": "LinkedIn blocked since 2026-04-03: session expired / login required"
+  },
+  {
+    "id": "camp-auto-photo-2026-04-08",
+    "type": "email",
+    "name": "Photographes Perpignan/Nîmes/Avignon",
+    "date": "2026-04-08",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Perpignan",
+        "Nîmes",
+        "Avignon"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-08",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-08",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-08",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-08",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-photo-2026-04-09",
+    "type": "email",
+    "name": "Photographes Saint-Étienne/Besançon/Amiens",
+    "date": "2026-04-09",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Saint-Étienne",
+        "Besançon",
+        "Amiens"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-mariage-2026-04-09",
+    "type": "email",
+    "name": "Domaines mariage Normandie/Bretagne",
+    "date": "2026-04-09",
+    "status": "planned",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Normandie",
+        "Bretagne"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-09",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-09",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-09",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-09",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-photo-2026-04-10",
+    "type": "email",
+    "name": "Photographes Pau/Bayonne/La Rochelle",
+    "date": "2026-04-10",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Pau",
+        "Bayonne",
+        "La Rochelle"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-10",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-10",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-10",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-10",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-photo-2026-04-13",
+    "type": "email",
+    "name": "Photographes Lyon/Marseille/Toulon",
+    "date": "2026-04-13",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Lyon",
+        "Marseille",
+        "Toulon"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-13",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-13",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-13",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-13",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-photo-2026-04-14",
+    "type": "email",
+    "name": "Photographes Dijon/Clermont-Ferrand/Limoges",
+    "date": "2026-04-14",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Dijon",
+        "Clermont-Ferrand",
+        "Limoges"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-mariage-2026-04-14",
+    "type": "email",
+    "name": "Domaines mariage Normandie/Bretagne",
+    "date": "2026-04-14",
+    "status": "planned",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Normandie",
+        "Bretagne"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-14",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-14",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-14",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-14",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-photo-2026-04-15",
+    "type": "email",
+    "name": "Photographes Angers/Tours/Orléans",
+    "date": "2026-04-15",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Angers",
+        "Tours",
+        "Orléans"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-15",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-15",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-15",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-15",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-photo-2026-04-16",
+    "type": "email",
+    "name": "Photographes Metz/Nancy/Reims",
+    "date": "2026-04-16",
+    "status": "planned",
+    "target": "Photographes — Saphir Noir",
+    "details": {
+      "cities": [
+        "Metz",
+        "Nancy",
+        "Reims"
+      ],
+      "count": 20,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-mariage-2026-04-16",
+    "type": "email",
+    "name": "Domaines mariage Paris/Île-de-France",
+    "date": "2026-04-16",
+    "status": "planned",
+    "target": "Mariages — Saphir Noir",
+    "details": {
+      "cities": [
+        "Paris",
+        "Île-de-France"
+      ],
+      "count": 5,
+      "sent": 0,
+      "template": "personnalisé"
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-msg-2026-04-16",
+    "type": "linkedin",
+    "name": "Messages dentistes 1er degré",
+    "date": "2026-04-16",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "message",
+      "degree": "1st",
+      "count": 3
+    },
+    "result": null
+  },
+  {
+    "id": "camp-auto-li-inv-2026-04-16",
+    "type": "linkedin",
+    "name": "Invitations dentistes 2e degré",
+    "date": "2026-04-16",
+    "status": "planned",
+    "target": "Infinity Medical — Dentistes",
+    "details": {
+      "action": "invite",
+      "degree": "2nd",
+      "count": 5
+    },
+    "result": null
+  }
+]

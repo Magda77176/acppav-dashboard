@@ -1,0 +1,130 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "30 emails photographes envoyés",
+      "desc": "Batch 1-4: Paris, Bordeaux, Nice, Toulouse, Évry, Nantes — Saphir Noir",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Saphir Noir",
+      "status": "done"
+    },
+    {
+      "id": "2",
+      "title": "LinkedIn msg → Iuri Abreu",
+      "desc": "Cabinet Dr Abreu, Amiens. Parcours Portugal→COSEM. Message personnalisé envoyé 16:40",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Infinity Medical",
+      "status": "done"
+    },
+    {
+      "id": "3",
+      "title": "LinkedIn msg → Bruno Zamansky",
+      "desc": "Cabinet de Passy, Paris 16e. 25 ans, Conseiller Ordre. Message envoyé 16:44",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Infinity Medical",
+      "status": "done"
+    },
+    {
+      "id": "4",
+      "title": "4 invitations LinkedIn 2e degré",
+      "desc": "Frédéric Achache (avec note), Gabriel Besadoux, Anne Laure Medina, Anne Da Rocha",
+      "assignee": "Jarvis",
+      "priority": "medium",
+      "project": "Infinity Medical",
+      "status": "done"
+    },
+    {
+      "id": "5",
+      "title": "Ollama Qwen 35B sur host VPS",
+      "desc": "Install Ollama hors Docker, Qwen 3.5:35b-a3b à 4.7 tok/s. Money Brain pipeline OK.",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Infrastructure",
+      "status": "done"
+    },
+    {
+      "id": "6",
+      "title": "Mission Control v2",
+      "desc": "Dashboard complet avec données réelles, bureau 2D, pipeline, memory viewer",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Infrastructure",
+      "status": "in_progress"
+    },
+    {
+      "id": "7",
+      "title": "Prospection domaines mariage",
+      "desc": "Pipeline validé. 4 domaines contactés le 12/03 (Forest, Magnitot, Bois aux Dames, Carneaux) + 2 identifiés avant (Vallée aux Pages, Contremoret). Total: 6 prospects. Continuer le scale.",
+      "assignee": "Jarvis",
+      "priority": "medium",
+      "project": "Saphir Noir",
+      "status": "in_progress"
+    },
+    {
+      "id": "8",
+      "title": "Emails photographes Lille/Rennes/Strasbourg",
+      "desc": "14 emails perso envoyés (Lille 4, Rennes 3, Strasbourg 2, Grenoble 3, Rouen 2). 0 erreurs.",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Saphir Noir",
+      "status": "done"
+    },
+    {
+      "id": "9",
+      "title": "Fix SSH accès host VPS",
+      "desc": "Clé SSH container perdue au restart. Nouvelle clé générée, pas encore ajoutée côté host.",
+      "assignee": "Sullivan",
+      "priority": "medium",
+      "project": "Infrastructure",
+      "status": "backlog"
+    },
+    {
+      "id": "10",
+      "title": "CRM blinding emails",
+      "desc": "2343 avec site / 33984 sans site. Continuer enrichissement Serper.dev + Hunter.io",
+      "assignee": "commercial-medical",
+      "priority": "high",
+      "project": "Infinity Medical",
+      "status": "backlog"
+    },
+    {
+      "id": "11",
+      "title": "Nouveau batch mots-clés IPG",
+      "desc": "Calendrier éditorial épuisé (30/30). Besoin nouvelle vague keywords.",
+      "assignee": "seo-expert",
+      "priority": "medium",
+      "project": "IciPourGagner",
+      "status": "backlog"
+    },
+    {
+      "id": "12",
+      "title": "Analyser vidéo Alex Finn Mission Control",
+      "desc": "Transcription Groq Whisper faite. Insights extraits: task board, calendar, memory, team, office 2D",
+      "assignee": "Jarvis",
+      "priority": "low",
+      "project": "Infrastructure",
+      "status": "done"
+    },
+    {
+      "id": "13",
+      "title": "LinkedIn: João Paquete déjà contacté",
+      "desc": "Message envoyé 24 février. Pas de réponse.",
+      "assignee": "Jarvis",
+      "priority": "low",
+      "project": "Infinity Medical",
+      "status": "done"
+    },
+    {
+      "id": "14",
+      "title": "Monitorer réponses emails photographes",
+      "desc": "44 emails envoyés au total (30+14), surveiller magdaleonsullivan2@gmail.com pour réponses",
+      "assignee": "Jarvis",
+      "priority": "high",
+      "project": "Saphir Noir",
+      "status": "in_progress"
+    }
+  ]
+}

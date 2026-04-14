@@ -1,0 +1,296 @@
+"use client";
+import { useEffect, useState } from "react";
+
+interface MedicalData {
+  totalAmeli: number;
+  totalEmelia: number;
+  totalKO: number;
+  ameliBySpec: Record<string, number>;
+  emeliaBySpec: Record<string, number>;
+  ameliTopDepts: Record<string, Record<string, number>>;
+  emeliaByDept: Record<string, number>;
+}
+
+function fmt(n: number) { return n.toLocaleString("fr-FR"); }
+
+export default function PipelinePage() {
+  const [tab, setTab] = useState("medical");
+  const [photoData, setPhotoData] = useState<any>(null);
+  const [medicalData, setMedicalData] = useState<MedicalData | null>(null);
+  const [medicalTab, setMedicalTab] = useState<"overview"|"ameli"|"emelia"|"opportunities">("overview");
+
+  useEffect(() => {
+    fetch("/api/pipeline/photographes").then(r => r.json()).then(setPhotoData).catch(() => {});
+    fetch("/api/leads-medical").then(r => r.json()).then(setMedicalData).catch(() => {});
+  }, []);
+
+  const tabs = [
+    { id: "medical", label: "🏥 MÉDICAL" },
+    { id: "photographes", label: "📸 PHOTOGRAPHES" },
+    { id: "mariages", label: "💒 MARIAGES" },
+  ];
+
+  const medicalTabs = [
+    { id: "overview" as const, label: "VUE D'ENSEMBLE" },
+    { id: "ameli" as const, label: "BASE AMELI" },
+    { id: "emelia" as const, label: "EN CAMPAGNE" },
+    { id: "opportunities" as const, label: "OPPORTUNITÉS" },
+  ];
+
+  const keySpecs = [
+    "Chirurgien-dentiste","Médecin généraliste","Cardiologue","Ophtalmologiste",
+    "Gynécologue / Obstétricien","Chirurgien orthopédiste et traumatologue",
+    "Psychiatre","Anesthésiste réanimateur","Dermatologue et vénérologue",
+    "Gastro-entérologue et hépatologue","Pédiatre","Chirurgien urologue",
+    "Oto-Rhino-Laryngologue (ORL) et chirurgien cervico-facial"
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto" style={{ backgroundColor: '#000000', fontFamily: "'Courier New', 'Consolas', monospace" }}>
+      <h1 className="text-2xl font-bold mb-6" style={{ color: '#e0e0e0', letterSpacing: '0.1em' }}>PIPELINE</h1>
+
+      <div className="flex gap-2 mb-6 overflow-x-auto">
+        {tabs.map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)} className="px-4 py-2 text-sm font-medium"
+            style={{ backgroundColor: '#000', color: tab === t.id ? '#e0e0e0' : '#666', border: tab === t.id ? '1px solid #e0e0e0' : '1px solid #222', fontFamily: "'Courier New', monospace", letterSpacing: '0.1em' }}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ============ MEDICAL TAB ============ */}
+      {tab === "medical" && medicalData && (() => {
+        const potential = medicalData.totalAmeli - medicalData.totalEmelia - medicalData.totalKO;
+        const pct = ((medicalData.totalEmelia / medicalData.totalAmeli) * 100).toFixed(1);
+        const ameliEntries = Object.entries(medicalData.ameliBySpec).sort((a, b) => b[1] - a[1]);
+        const emeliaEntries = Object.entries(medicalData.emeliaBySpec).sort((a, b) => b[1] - a[1]);
+        const maxAmeli = ameliEntries[0]?.[1] || 1;
+
+        return (
+          <div className="space-y-6">
+            {/* Sub tabs */}
+            <div className="flex gap-2 overflow-x-auto">
+              {medicalTabs.map(t => (
+                <button key={t.id} onClick={() => setMedicalTab(t.id)} className="px-3 py-1 text-xs"
+                  style={{ background: medicalTab === t.id ? '#1a1a2e' : 'transparent', color: medicalTab === t.id ? '#38bdf8' : '#666', border: medicalTab === t.id ? '1px solid #38bdf8' : '1px solid #333', borderRadius: 4, fontFamily: 'monospace' }}>
+                  {t.label}
+                </button>
+              ))}
+            </div>
+
+            {/* KPIs */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { label: "BASE AMELI", value: fmt(medicalData.totalAmeli), color: "#a78bfa" },
+                { label: "AVEC EMAIL", value: fmt(medicalData.totalEmelia), color: "#4ade80" },
+                { label: "À ENRICHIR", value: fmt(potential), color: "#fb923c" },
+                { label: "EMAILS KO", value: fmt(medicalData.totalKO), color: "#f87171" },
+              ].map(k => (
+                <div key={k.label} className="p-4" style={{ border: '1px solid #222' }}>
+                  <p className="text-2xl font-bold" style={{ color: k.color, fontFamily: 'monospace' }}>{k.value}</p>
+                  <p className="text-xs mt-1" style={{ color: '#666', letterSpacing: '0.1em' }}>{k.label}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Progress */}
+            <div className="p-4" style={{ border: '1px solid #222' }}>
+              <div className="flex justify-between mb-2">
+                <span style={{ fontSize: 11, color: '#666' }}>ENRICHISSEMENT</span>
+                <span style={{ fontSize: 11, color: '#e0e0e0', fontWeight: 600 }}>{pct}%</span>
+              </div>
+              <div style={{ height: 8, background: '#222', borderRadius: 4, overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #4ade80, #38bdf8)', borderRadius: 4 }} />
+              </div>
+            </div>
+
+            {/* OVERVIEW */}
+            {medicalTab === "overview" && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="p-4" style={{ border: '1px solid #222' }}>
+                  <h3 className="mb-3" style={{ fontSize: 13, color: '#e0e0e0', letterSpacing: '0.1em' }}>🩺 TOP SPÉCIALITÉS (AMELI)</h3>
+                  {ameliEntries.slice(0, 12).map(([spec, count]) => (
+                    <div key={spec} className="flex items-center gap-2 mb-1">
+                      <span style={{ fontSize: 10, color: '#888', width: 180, flexShrink: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{spec}</span>
+                      <div style={{ flex: 1, height: 5, background: '#222', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${(count / maxAmeli * 100)}%`, background: '#38bdf8', borderRadius: 2 }} />
+                      </div>
+                      <span style={{ fontSize: 10, color: '#e0e0e0', fontFamily: 'monospace', width: 55, textAlign: 'right' }}>{fmt(count)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4" style={{ border: '1px solid #222' }}>
+                  <h3 className="mb-3" style={{ fontSize: 13, color: '#e0e0e0', letterSpacing: '0.1em' }}>📧 EN CAMPAGNE (EMELIA)</h3>
+                  {emeliaEntries.map(([spec, count]) => (
+                    <div key={spec} className="flex justify-between items-center py-1" style={{ borderBottom: '1px solid #111' }}>
+                      <span style={{ fontSize: 11, color: '#888' }}>{spec}</span>
+                      <div className="flex items-center gap-2">
+                        <span style={{ fontSize: 11, color: '#e0e0e0', fontFamily: 'monospace' }}>{fmt(count)}</span>
+                        <span style={{ padding: '1px 5px', borderRadius: 3, fontSize: 8, fontWeight: 600, background: spec === 'Non renseigné' ? '#78350f' : '#065f46', color: spec === 'Non renseigné' ? '#fbbf24' : '#4ade80' }}>
+                          {spec === 'Non renseigné' ? '?' : 'ACTIF'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* AMELI */}
+            {medicalTab === "ameli" && (
+              <div className="p-4" style={{ border: '1px solid #222' }}>
+                <h3 className="mb-3" style={{ fontSize: 13, color: '#e0e0e0', letterSpacing: '0.1em' }}>BASE AMELI — {fmt(medicalData.totalAmeli)} PROFESSIONNELS</h3>
+                <table className="w-full text-sm" style={{ fontFamily: 'monospace' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid #222' }}>
+                      <th className="p-2 text-left" style={{ color: '#666', fontSize: 10, letterSpacing: '0.1em' }}>SPÉCIALITÉ</th>
+                      <th className="p-2 text-right" style={{ color: '#666', fontSize: 10 }}>TOTAL</th>
+                      <th className="p-2" style={{ color: '#666', fontSize: 10, width: '35%' }}>VOLUME</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ameliEntries.map(([spec, count]) => (
+                      <tr key={spec} style={{ borderBottom: '1px solid #111' }}>
+                        <td className="p-2" style={{ fontSize: 11, color: '#ccc' }}>{spec}</td>
+                        <td className="p-2 text-right" style={{ fontSize: 11, color: '#e0e0e0' }}>{fmt(count)}</td>
+                        <td className="p-2">
+                          <div style={{ height: 5, background: '#222', borderRadius: 2, overflow: 'hidden' }}>
+                            <div style={{ height: '100%', width: `${(count / maxAmeli * 100)}%`, background: '#a78bfa', borderRadius: 2 }} />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {/* EMELIA */}
+            {medicalTab === "emelia" && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="p-4" style={{ border: '1px solid #222' }}>
+                  <h3 className="mb-3" style={{ fontSize: 13, color: '#e0e0e0', letterSpacing: '0.1em' }}>PAR SPÉCIALITÉ</h3>
+                  {emeliaEntries.map(([spec, count]) => (
+                    <div key={spec} className="flex justify-between py-1" style={{ borderBottom: '1px solid #111' }}>
+                      <span style={{ fontSize: 11, color: '#ccc' }}>{spec}</span>
+                      <span style={{ fontSize: 11, color: '#4ade80', fontFamily: 'monospace', fontWeight: 600 }}>{fmt(count)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4" style={{ border: '1px solid #222' }}>
+                  <h3 className="mb-3" style={{ fontSize: 13, color: '#e0e0e0', letterSpacing: '0.1em' }}>📍 PAR DÉPARTEMENT</h3>
+                  {Object.entries(medicalData.emeliaByDept).map(([dept, count]) => (
+                    <div key={dept} className="flex items-center gap-2 mb-1">
+                      <span style={{ fontSize: 10, color: '#888', width: 45 }}>Dept {dept}</span>
+                      <div style={{ flex: 1, height: 5, background: '#222', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{ height: '100%', width: `${(count / Object.values(medicalData.emeliaByDept)[0] * 100)}%`, background: '#38bdf8', borderRadius: 2 }} />
+                      </div>
+                      <span style={{ fontSize: 10, color: '#e0e0e0', fontFamily: 'monospace', width: 35, textAlign: 'right' }}>{fmt(count)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* OPPORTUNITIES */}
+            {medicalTab === "opportunities" && (
+              <div className="p-4" style={{ border: '1px solid #222' }}>
+                <h3 className="mb-3" style={{ fontSize: 13, color: '#e0e0e0', letterSpacing: '0.1em' }}>🎯 OPPORTUNITÉS D'ENRICHISSEMENT</h3>
+                <table className="w-full text-sm" style={{ fontFamily: 'monospace' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid #222' }}>
+                      <th className="p-2 text-left" style={{ color: '#666', fontSize: 10 }}>SPÉCIALITÉ</th>
+                      <th className="p-2 text-right" style={{ color: '#666', fontSize: 10 }}>AMELI</th>
+                      <th className="p-2 text-right" style={{ color: '#666', fontSize: 10 }}>ENRICHI</th>
+                      <th className="p-2 text-right" style={{ color: '#666', fontSize: 10 }}>RESTANT</th>
+                      <th className="p-2" style={{ color: '#666', fontSize: 10, width: '20%' }}>COUVERTURE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {keySpecs.map(spec => {
+                      const ameli = medicalData.ameliBySpec[spec] || 0;
+                      const enriched = medicalData.emeliaBySpec[spec] || 0;
+                      const reste = ameli - enriched;
+                      const cov = ameli > 0 ? ((enriched / ameli) * 100).toFixed(1) : "0";
+                      if (ameli === 0) return null;
+                      return (
+                        <tr key={spec} style={{ borderBottom: '1px solid #111' }}>
+                          <td className="p-2" style={{ fontSize: 11, color: '#ccc' }}>{spec}</td>
+                          <td className="p-2 text-right" style={{ fontSize: 11, color: '#a78bfa' }}>{fmt(ameli)}</td>
+                          <td className="p-2 text-right" style={{ fontSize: 11, color: '#4ade80' }}>{fmt(enriched)}</td>
+                          <td className="p-2 text-right" style={{ fontSize: 11, color: '#fb923c', fontWeight: 600 }}>{fmt(reste)}</td>
+                          <td className="p-2">
+                            <div className="flex items-center gap-1">
+                              <div style={{ flex: 1, height: 5, background: '#222', borderRadius: 2, overflow: 'hidden' }}>
+                                <div style={{ height: '100%', width: `${cov}%`, background: parseFloat(cov) > 20 ? '#4ade80' : '#fb923c', borderRadius: 2 }} />
+                              </div>
+                              <span style={{ fontSize: 9, color: '#888', width: 30 }}>{cov}%</span>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
+      {tab === "medical" && !medicalData && (
+        <div className="p-6" style={{ border: '1px solid #222' }}>
+          <p style={{ color: '#666', fontFamily: 'monospace', letterSpacing: '0.1em' }}>CHARGEMENT DONNÉES MÉDICALES...</p>
+        </div>
+      )}
+
+      {/* ============ PHOTOGRAPHES TAB ============ */}
+      {tab === "photographes" && photoData && (
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { label: "TOTAL", value: photoData.total },
+              { label: "AVEC EMAIL", value: photoData.withEmail },
+              { label: "SANS EMAIL", value: photoData.withoutEmail },
+              { label: "AVEC TEL", value: photoData.withPhone },
+            ].map(s => (
+              <div key={s.label} className="p-4" style={{ border: '1px solid #222' }}>
+                <p className="text-2xl font-bold" style={{ color: '#e0e0e0', fontFamily: 'monospace' }}>{s.value}</p>
+                <p className="text-xs mt-1" style={{ color: '#666', letterSpacing: '0.1em' }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+          <div className="overflow-x-auto" style={{ border: '1px solid #222' }}>
+            <table className="w-full text-sm" style={{ fontFamily: 'monospace' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid #222' }}>
+                  {["NOM","VILLE","SITE","EMAIL","TELEPHONE"].map(h => (
+                    <th key={h} className="p-3 text-left" style={{ color: '#666', fontSize: 10, letterSpacing: '0.1em' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {photoData.rows.map((r: any, i: number) => (
+                  <tr key={i} style={{ borderBottom: '1px solid #111', backgroundColor: i % 2 === 0 ? '#000' : '#0a0a0a' }}>
+                    <td className="p-3" style={{ color: '#e0e0e0' }}>{r.Nom}</td>
+                    <td className="p-3" style={{ color: '#666' }}>{r.Ville}</td>
+                    <td className="p-3">{r.Site ? <a href={`https://${r.Site}`} target="_blank" style={{ color: '#e0e0e0', fontSize: 11 }}>{r.Site}</a> : <span style={{ color: '#333' }}>—</span>}</td>
+                    <td className="p-3 text-xs" style={{ color: '#666' }}>{r.Email || <span style={{ color: '#333' }}>—</span>}</td>
+                    <td className="p-3 text-xs" style={{ color: '#666' }}>{r.Telephone || <span style={{ color: '#333' }}>—</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* ============ MARIAGES TAB ============ */}
+      {tab === "mariages" && (
+        <div className="p-6" style={{ border: '1px solid #222' }}>
+          <p style={{ color: '#666', fontFamily: 'monospace', letterSpacing: '0.1em' }}>PIPELINE EN CONSTRUCTION — PROSPECTION DOMAINE MARIAGE EN COURS</p>
+        </div>
+      )}
+    </div>
+  );
+}

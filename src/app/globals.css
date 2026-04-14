@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #e0e0e0;
+  --accent: #33ff33;
+  --danger: #ff3333;
+  --muted: #666666;
+  --border: #222222;
+  --sidebar-width: 220px;
+  --bottom-nav-height: 60px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #000000;
+  color: #e0e0e0;
+  font-family: 'Courier New', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #333; }
+
+/* Neural Cortex style classes */
+.neural-label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  color: #666666;
+}
+.neural-value { color: #e0e0e0; font-weight: normal; }
+.neural-border { border: 1px solid #222222; }
+.neural-separator { border-top: 1px solid #222222; }
+
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-online { background-color: #33ff33; }
+.status-error { background-color: #ff3333; }
+.status-warning { background-color: #ff9933; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+.status-pulse { animation: pulse 2s infinite; }
+
+* {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* ===========================
+   SIDEBAR — Desktop only
+   =========================== */
+.sidebar-hamburger,
+.sidebar-overlay,
+.sidebar-close-btn {
+  display: none !important;
+}
+
+.sidebar-aside {
+  position: fixed;
+  left: 0; top: 0; bottom: 0;
+  width: var(--sidebar-width);
+  background: #000;
+  display: none;
+  flex-direction: column;
+  z-index: 60;
+  border-right: 1px solid #222;
+}
+
+.sidebar-aside nav::-webkit-scrollbar { width: 0; display: none; }
+.sidebar-aside nav { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (min-width: 1024px) {
+  .sidebar-aside {
+    display: flex !important;
+  }
+}
+
+/* ===========================
+   BOTTOM NAV — Mobile only
+   =========================== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: var(--bottom-nav-height);
+  background: #000;
+  border-top: 1px solid #222;
+  display: flex;
+  align-items: stretch;
+  z-index: 50;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.bottom-nav-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #555;
+  text-decoration: none;
+  transition: color 0.15s;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-tab.active {
+  color: #fff;
+}
+
+.bottom-nav-tab:active {
+  background: #111;
+}
+
+.bottom-nav-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.bottom-nav-label {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* More menu */
+.bottom-nav-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.bottom-nav-more-menu {
+  width: 100%;
+  max-height: 70vh;
+  background: #0a0a0a;
+  border-top: 1px solid #333;
+  padding: 16px;
+  padding-bottom: calc(var(--bottom-nav-height) + 16px + env(safe-area-inset-bottom, 0));
+  overflow-y: auto;
+}
+
+.bottom-nav-more-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+.bottom-nav-more-header button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.bottom-nav-more-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.bottom-nav-more-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 8px;
+  background: #000;
+  border: 1px solid #222;
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-more-item.active {
+  color: #fff;
+  border-color: #fff;
+}
+
+.bottom-nav-more-item:active {
+  background: #111;
+}
+
+/* Hide bottom nav on desktop */
+@media (min-width: 1024px) {
+  .bottom-nav { display: none !important; }
+  .bottom-nav-overlay { display: none !important; }
+}
+
+/* ===========================
+   LAYOUT
+   =========================== */
+.main-content {
+  padding: 12px 12px calc(var(--bottom-nav-height) + 12px) 12px;
+  overflow-x: hidden;
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding: 16px 16px calc(var(--bottom-nav-height) + 16px) 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    margin-left: var(--sidebar-width);
+    padding: 32px;
+  }
+}
+
+/* ===========================
+   MOBILE TYPOGRAPHY
+   =========================== */
+@media (max-width: 639px) {
+  .neural-border {
+    padding: 10px;
+  }
+  
+  h1 { font-size: 16px !important; }
+  
+  .text-2xl, .text-3xl { font-size: 1.1rem; }
+  .text-4xl { font-size: 1.4rem; }
+  
+  canvas { max-width: 100%; }
+}
+
+/* ===========================
+   FULLSCREEN PAGES (Office 3D, Jarvis Voice)
+   =========================== */
+.office-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 40 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Ensure Three.js canvas fills its container */
+.office-fullscreen canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* ===========================
+   TASK CARDS
+   =========================== */
+.task-card { 
+  transition: opacity 0.15s;
+  background: #000;
+  border: 1px solid #222;
+}
+.task-card:hover { opacity: 0.8; }
+
+/* ===========================
+   RESPONSIVE TABLES
+   =========================== */
+@media (max-width: 1023px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

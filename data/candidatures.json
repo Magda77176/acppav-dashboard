@@ -1,0 +1,99 @@
+{
+  "runs": [
+    {
+      "id": "run-2026-03-15-jarvis",
+      "date": "2026-03-15",
+      "agent": "Jarvis (manual)",
+      "status": "done",
+      "duration_min": 15,
+      "scan": {
+        "urls_scanned": 6,
+        "pages_scanned": 6,
+        "offers_found": 45,
+        "already_applied": 37
+      },
+      "candidatures": [
+        {"entreprise": "Cheops Technology", "poste": "Consultant IA", "tjm": "530-650€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "PARTENOR", "poste": "Chef de projet IA", "tjm": "—", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "Teaminside", "poste": "CTO IA", "tjm": "650-800€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "JobiStart", "poste": "Consultant IA", "tjm": "400-550€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "CGI", "poste": "Expert IA", "tjm": "400-550€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "Ness Technologies", "poste": "Consultant IA", "tjm": "400-550€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "RED Commerce", "poste": "Expert LLM", "tjm": "—", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "Deodis", "poste": "Chef de projet IA", "tjm": "400-550€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"}
+      ]
+    },
+    {
+      "id": "run-2026-03-15-agent",
+      "date": "2026-03-15",
+      "agent": "agent-sullivan",
+      "status": "done",
+      "duration_min": 30,
+      "scan": {
+        "urls_scanned": 3,
+        "pages_scanned": 3,
+        "offers_found": 12,
+        "already_applied": 10
+      },
+      "candidatures": [
+        {"entreprise": "Inventiv IT", "poste": "Chef de Projet Innovation IA", "tjm": "450-550€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"},
+        {"entreprise": "Insitoo Freelances", "poste": "Architecte GenAI", "tjm": "500-800€", "lieu": "IDF", "status": "applied", "confirmation": "Votre candidature a été envoyée avec succès"}
+      ]
+    },
+    {
+      "id": "run-2026-03-16-subagent",
+      "date": "2026-03-16",
+      "agent": "agent-sullivan",
+      "status": "technical_blocker",
+      "duration_min": 45,
+      "scan": {
+        "urls_scanned": 8,
+        "pages_scanned": 2,
+        "offers_found": 400,
+        "offers_scored": 16,
+        "already_applied": 0
+      },
+      "candidatures": [
+        {"entreprise": "Cherry Pick", "poste": "Data Engineer IA API", "tjm": "460-580€", "lieu": "Courbevoie", "plateforme": "Free-Work", "status": "blocked", "score": 7, "slug": "data-engineer-ia-api-gcp-aws", "confirmation": "401 JWT Token not found"},
+        {"entreprise": "VISIAN", "poste": "Data Engineer IA Gen", "tjm": "400-550€", "lieu": "Paris", "plateforme": "Free-Work", "status": "blocked", "score": 8, "slug": "data-engineer-ia-gen", "confirmation": "401 JWT Token not found"}
+      ],
+      "notes": "Session Free-Work expirée, Mac Sullivan offline. 8 excellentes opportunités identifiées et scorées. Messages préparés pour envoi manuel.",
+      "next_action": "Sullivan doit se connecter Free-Work pour envoyer 8 candidatures prioritaires"
+    },
+    {
+      "id": "run-2026-03-16-passe2",
+      "date": "2026-03-16",
+      "agent": "agent-sullivan-subagent",
+      "status": "technical_issues_adaption",
+      "duration_min": 15,
+      "scan": {
+        "urls_scanned": 5,
+        "pages_scanned": 0,
+        "offers_found": 16,
+        "offers_prepared": 8,
+        "technical_issues": "Free-Work session expirée, HelloWork/WTTJ 404"
+      },
+      "candidatures": [
+        {"entreprise": "VISIAN", "poste": "Data Engineer IA Gen", "tjm": "400-550€", "lieu": "Paris", "plateforme": "Free-Work", "status": "prepared", "score": 8, "slug": "data-engineer-ia-gen", "message": "Préparé - session technique bloquée"},
+        {"entreprise": "Cherry Pick", "poste": "Data Engineer IA & API", "tjm": "460-580€", "lieu": "Courbevoie", "plateforme": "Free-Work", "status": "prepared", "score": 7, "slug": "data-engineer-ia-api-gcp-aws", "message": "Préparé - session technique bloquée"},
+        {"entreprise": "LeHibou", "poste": "Software Engineer Python Agentic AI", "tjm": "Non précisé", "lieu": "Saint-Denis", "plateforme": "Free-Work", "status": "prepared", "score": 8, "slug": "software-engineer-python-agentic-ai-x2-h-f", "message": "MATCH EXCELLENT - systèmes agentiques"},
+        {"entreprise": "Collective.work", "poste": "Data Scientist GenAI", "tjm": "500-550€", "lieu": "IDF", "plateforme": "Collective.work", "status": "prepared", "score": 7, "slug": "data-scientist-genai-llm-rag-agents-freelance", "message": "GenAI + RAG + agents"},
+        {"entreprise": "Collective.work", "poste": "Product Owner IA", "tjm": "Non précisé", "lieu": "Paris", "plateforme": "Collective.work", "status": "prepared", "score": 6, "slug": "product-owner-ia-llm-rag-assurance-ww1x", "message": "LLM + RAG secteur bancaire"},
+        {"entreprise": "Mon Consultant Indépendant", "poste": "Chef de Projet IA Générative", "tjm": "670-700€", "lieu": "Paris", "plateforme": "Email direct", "status": "prepared", "score": 8, "message": "Management IA + TJM élevé"},
+        {"entreprise": "Gentis Recruitment", "poste": "Chef de Projet IA Senior", "tjm": "500-650€", "lieu": "Paris", "plateforme": "Email direct", "status": "prepared", "score": 8, "message": "Gouvernance IA banking"},
+        {"entreprise": "Atlanse", "poste": "Chef.fe de projet IA senior", "tjm": "400-550€", "lieu": "Paris", "plateforme": "Email direct", "status": "prepared", "score": 7, "message": "NLP + RAG + assistants"}
+      ],
+      "notes": "Candidatures préparées suite aux blocages techniques. 8 excellentes opportunités identifiées score ≥ 6. Adaptation nécessaire aux problèmes de plateformes."
+    }
+  ],
+  "stats": {
+    "total_applied": 52,
+    "total_prepared": 8,
+    "total_runs": 14,
+    "avg_per_run": 4.3,
+    "platforms": {"free-work": 51, "indeed": 3, "wttj": 1, "collective-work": 2, "email-direct": 3},
+    "responses_received": 2,
+    "interviews_scheduled": 0,
+    "technical_issues_today": "Free-Work session expirée, plateformes inaccessibles"
+  }
+}

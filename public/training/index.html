@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 LangChain 101 — Training Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --orange: #d29922; --red: #f85149;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; }
+
+.header {
+  background:var(--card); border-bottom:1px solid var(--border);
+  padding:.8rem 1.2rem; display:flex; align-items:center; justify-content:space-between;
+}
+.header h1 { font-size:1rem; font-weight:700; }
+.header h1 span { color:var(--accent); }
+
+.exercises {
+  display:flex; gap:.4rem; padding:.6rem 1.2rem; background:var(--card);
+  border-bottom:1px solid var(--border); flex-wrap:wrap;
+}
+.ex-btn {
+  padding:.4rem .8rem; border-radius:8px; border:1px solid var(--border);
+  background:var(--bg); color:var(--muted); font-size:.75rem; cursor:pointer;
+  font-family:'JetBrains Mono',monospace; font-weight:600; transition:all .15s;
+}
+.ex-btn:hover { border-color:var(--accent); color:var(--text); }
+.ex-btn.active { border-color:var(--accent); background:rgba(88,166,255,.1); color:var(--accent); }
+.ex-btn.done { border-color:var(--green); color:var(--green); }
+
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+
+/* Explanation area */
+.explain {
+  padding:.8rem 1.2rem; background:var(--card); border-bottom:1px solid var(--border);
+  font-size:.85rem; line-height:1.6;
+}
+.explain .title { font-weight:700; color:var(--accent); margin-bottom:.3rem; }
+.explain .mapping { color:var(--muted); font-size:.78rem; }
+.explain .mapping b { color:var(--orange); }
+
+/* Interactive area */
+.interact {
+  flex:1; display:grid; grid-template-columns:1fr 1fr; overflow:hidden;
+}
+.panel { display:flex; flex-direction:column; overflow:hidden; }
+.panel:first-child { border-right:1px solid var(--border); }
+.panel-header {
+  padding:.5rem 1rem; background:var(--card); border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.panel-label { font-size:.7rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; font-family:'JetBrains Mono',monospace; }
+
+/* Code editor */
+.code-editor {
+  flex:1; width:100%; border:none; background:var(--bg); color:var(--text);
+  font-family:'JetBrains Mono',monospace; font-size:.82rem; line-height:1.7;
+  padding:1rem; resize:none; outline:none; tab-size:2;
+}
+
+/* Params */
+.params {
+  padding:.6rem 1rem; background:rgba(88,166,255,.05); border-bottom:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:.5rem; align-items:center;
+}
+.param-group { display:flex; align-items:center; gap:.3rem; }
+.param-label { font-size:.7rem; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+.param-input {
+  padding:.3rem .5rem; border-radius:6px; border:1px solid var(--border);
+  background:var(--bg); color:var(--accent); font-size:.78rem;
+  font-family:'JetBrains Mono',monospace; min-width:150px; outline:none;
+}
+.param-input:focus { border-color:var(--accent); }
+.param-select {
+  padding:.3rem .5rem; border-radius:6px; border:1px solid var(--border);
+  background:var(--bg); color:var(--accent); font-size:.78rem;
+  font-family:'JetBrains Mono',monospace; outline:none;
+}
+
+/* Output */
+.output-area {
+  flex:1; overflow-y:auto; padding:1rem; font-family:'JetBrains Mono',monospace;
+  font-size:.82rem; line-height:1.7; white-space:pre-wrap; word-break:break-word;
+}
+.output-area.waiting { color:var(--muted); }
+.output-area.running { color:var(--orange); }
+.output-area.success { color:var(--green); }
+.output-area.error { color:var(--red); }
+
+/* Buttons */
+.run-btn {
+  padding:.4rem 1.2rem; border-radius:8px; border:none;
+  background:var(--green); color:#000; font-weight:700; font-size:.8rem;
+  cursor:pointer; font-family:'JetBrains Mono',monospace; transition:all .15s;
+}
+.run-btn:hover { background:#4cc960; }
+.run-btn:disabled { opacity:.5; cursor:not-allowed; }
+.run-btn.running { background:var(--orange); animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+.reset-btn {
+  padding:.3rem .7rem; border-radius:6px; border:1px solid var(--border);
+  background:transparent; color:var(--muted); font-size:.7rem; cursor:pointer;
+  font-family:'JetBrains Mono',monospace;
+}
+.reset-btn:hover { color:var(--text); border-color:var(--text); }
+
+/* Takeaway */
+.takeaway {
+  padding:.6rem 1rem; background:rgba(63,185,80,.08); border-top:1px solid rgba(63,185,80,.2);
+  font-size:.78rem; color:var(--green); line-height:1.5; display:none;
+}
+.takeaway.show { display:block; }
+.takeaway b { color:var(--text); }
+
+/* Challenges */
+.challenges {
+  padding:.6rem 1rem; background:rgba(210,168,34,.06); border-bottom:1px solid rgba(210,168,34,.15);
+}
+.challenge {
+  display:flex; align-items:flex-start; gap:.5rem; padding:.4rem 0;
+  font-size:.78rem; line-height:1.5; cursor:pointer; transition:opacity .15s;
+}
+.challenge:hover { opacity:.8; }
+.challenge.done { opacity:.5; text-decoration:line-through; }
+.challenge-check { 
+  width:16px; height:16px; border-radius:4px; border:1px solid var(--orange);
+  flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center;
+  font-size:10px; color:var(--green);
+}
+.challenge .challenge-check::after { content:''; }
+.challenge.done .challenge-check::after { content:'✓'; }
+.challenge.done .challenge-check { border-color:var(--green); background:rgba(63,185,80,.15); }
+.challenge-text { color:var(--text); }
+.challenge-text code { background:rgba(255,255,255,.08); padding:.1rem .3rem; border-radius:3px; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--orange); }
+.challenge-hint { color:var(--muted); font-size:.72rem; margin-top:.1rem; }
+.challenges-title { font-size:.7rem; font-weight:700; color:var(--orange); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.3rem; font-family:'JetBrains Mono',monospace; }
+
+/* File browser */
+.file-tree { padding:.5rem; overflow-y:auto; flex:1; }
+.tree-dir {
+  padding:.2rem .4rem; cursor:pointer; font-size:.78rem; border-radius:4px;
+  font-family:'JetBrains Mono',monospace; color:var(--accent); font-weight:600;
+  user-select:none;
+}
+.tree-dir:hover { background:rgba(88,166,255,.08); }
+.tree-dir::before { content:'📁 '; }
+.tree-dir.open::before { content:'📂 '; }
+.tree-children { margin-left:1rem; display:none; }
+.tree-children.open { display:block; }
+.tree-file {
+  padding:.2rem .4rem; cursor:pointer; font-size:.75rem; border-radius:4px;
+  font-family:'JetBrains Mono',monospace; color:var(--text); display:flex;
+  justify-content:space-between; align-items:center;
+}
+.tree-file:hover { background:rgba(255,255,255,.05); }
+.tree-file.active { background:rgba(88,166,255,.1); color:var(--accent); }
+.tree-file .meta { color:var(--muted); font-size:.65rem; }
+
+/* Analysis panel */
+.analysis {
+  padding:.8rem 1rem; background:var(--card); border-bottom:1px solid var(--border);
+  font-size:.78rem; display:flex; flex-wrap:wrap; gap:1rem;
+}
+.analysis-section h4 { font-size:.68rem; color:var(--muted); text-transform:uppercase; margin-bottom:.3rem; font-family:'JetBrains Mono',monospace; }
+.analysis-tag {
+  display:inline-block; padding:.1rem .4rem; border-radius:4px;
+  background:rgba(255,255,255,.06); font-size:.7rem; margin:.1rem;
+  font-family:'JetBrains Mono',monospace;
+}
+.analysis-tag.pattern { background:rgba(188,140,255,.12); color:#bc8cff; }
+.analysis-tag.func { background:rgba(63,185,80,.12); color:var(--green); }
+.analysis-tag.imp { background:rgba(88,166,255,.1); color:var(--accent); }
+.import-btn {
+  padding:.3rem .7rem; border-radius:6px; border:1px solid #bc8cff;
+  background:rgba(188,140,255,.1); color:#bc8cff; font-size:.7rem; cursor:pointer;
+  font-family:'JetBrains Mono',monospace; font-weight:600;
+}
+.import-btn:hover { background:rgba(188,140,255,.2); }
+
+@media (max-width:900px) {
+  .interact { grid-template-columns:1fr; grid-template-rows:1fr 1fr; }
+  .panel:first-child { border-right:none; border-bottom:1px solid var(--border); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎓 <span>LangChain 101</span> — Interactive Lab</h1>
+  <div style="display:flex;gap:.5rem;align-items:center">
+    <span class="param-label" id="progress-text">0/4</span>
+  </div>
+</div>
+
+<div class="exercises">
+  <div id="exercise-tabs" style="display:flex;gap:.4rem;flex-wrap:wrap"></div>
+  <div style="margin-left:auto;border-left:1px solid var(--border);padding-left:.5rem">
+    <button class="ex-btn" id="tab-browse" onclick="openBrowser()" style="background:rgba(188,140,255,.1);border-color:#bc8cff;color:#bc8cff">📂 Mes Scripts</button>
+  </div>
+</div>
+
+<div class="explain" id="explain"></div>
+
+<div class="main">
+  <div class="params" id="params"></div>
+  
+  <div class="challenges" id="challenges"></div>
+  <div class="interact">
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-label">✏️ Code — modifie et teste</span>
+        <button class="reset-btn" onclick="resetCode()">↺ Reset</button>
+      </div>
+      <textarea class="code-editor" id="editor" spellcheck="false"></textarea>
+    </div>
+    
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-label">⚡ Résultat</span>
+        <button class="run-btn" id="run-btn" onclick="runCode()">▶ RUN</button>
+      </div>
+      <div class="output-area waiting" id="output">Modifie les paramètres et clique ▶ RUN</div>
+    </div>
+  </div>
+  
+  <div class="takeaway" id="takeaway"></div>
+</div>
+
+<script>
+// ========== EXERCISES DATA ==========
+const EXERCISES = [
+  {
+    id: '1a',
+    tab: '1. Appel simple',
+    title: '🔹 Niveau 1 — Appel LLM simple',
+    explain: 'LangChain wrappe ton API. <b>ChatGoogleGenerativeAI()</b> = ton appel Gemini, mais standardisé.',
+    mapping: 'Ton code: <b>genai.generate(prompt)</b> → LangChain: <b>llm.invoke(prompt)</b>',
+    params: [
+      { id: 'question', label: 'Question', type: 'text', default: 'Explique le RAG en une phrase.' },
+      { id: 'model', label: 'Modèle', type: 'select', options: ['gemini-2.5-flash', 'gemini-2.0-flash'], default: 'gemini-2.5-flash' },
+    ],
+    code: `from langchain_google_genai import ChatGoogleGenerativeAI
+import os
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ"
+
+# Créer le LLM — change le modèle ci-dessus pour voir la diff
+llm = ChatGoogleGenerativeAI(model="{{model}}", temperature=0)
+
+# Appel simple — essaie de changer la question !
+response = llm.invoke("{{question}}")
+
+print("🤖 Réponse :", response.content)
+print("\\n📊 Modèle utilisé :", "{{model}}")`,
+    takeaway: '💡 <b>invoke()</b> = la méthode universelle. Que ce soit Gemini, Claude ou GPT — même syntaxe. Change juste le provider.',
+    challenges: [
+      { text: 'Change la question pour <code>"Explique les embeddings comme si j\'avais 10 ans"</code>', hint: 'Modifie le champ "Question" ci-dessus' },
+      { text: 'Passe le modèle en <code>gemini-2.0-flash</code> et compare la réponse', hint: 'Même question, modèle différent → réponse différente ?' },
+      { text: 'Dans l\'éditeur, change <code>temperature=0</code> en <code>temperature=1</code> et re-run', hint: 'Temperature 0 = déterministe, 1 = créatif. Run 2 fois pour voir la diff.' },
+    ]
+  },
+  {
+    id: '1b',
+    tab: '2. System prompt',
+    title: '🔹 Niveau 2 — System + Human messages',
+    explain: 'Le <b>SystemMessage</b> = ton AGENT.md. Il cadre le comportement du LLM avant la question.',
+    mapping: 'Ton code: <b>system prompt dans AGENT.md</b> → LangChain: <b>SystemMessage(content="...")</b>',
+    params: [
+      { id: 'role', label: 'Rôle (system)', type: 'text', default: 'Tu es un expert SEO. Réponds en français, max 2 phrases.' },
+      { id: 'question', label: 'Question', type: 'text', default: "C'est quoi le E-E-A-T de Google ?" },
+    ],
+    code: `from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import HumanMessage, SystemMessage
+import os
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ"
+
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+
+# SystemMessage = ton AGENT.md (le "rôle")
+# HumanMessage = la question de l'utilisateur
+messages = [
+    SystemMessage(content="{{role}}"),
+    HumanMessage(content="{{question}}"),
+]
+
+response = llm.invoke(messages)
+print("🤖 Réponse :", response.content)`,
+    takeaway: '💡 <b>SystemMessage</b> = AGENT.md. Change le rôle ci-dessus ("Tu es un médecin", "Tu es un dev Python") et vois comment la réponse change.',
+    challenges: [
+      { text: 'Mets le rôle à <code>"Tu es un développeur Python senior. Réponds avec du code."</code>', hint: 'La même question donne une réponse totalement différente selon le rôle' },
+      { text: 'Demande <code>"Comment réduire les hallucinations d\'un LLM ?"</code> avec le rôle expert SEO', hint: 'Un expert SEO ne répondra pas pareil qu\'un expert IA' },
+      { text: 'Ajoute un 3ème message dans l\'éditeur : <code>HumanMessage(content="Donne un exemple concret")</code>', hint: 'Tu peux enchaîner plusieurs messages dans la même conversation' },
+    ]
+  },
+  {
+    id: '1c',
+    tab: '3. Templates',
+    title: '🔹 Niveau 3 — Prompt Templates (réutilisables)',
+    explain: 'Un <b>ChatPromptTemplate</b> = un prompt avec des {variables}. Comme tes briefs d\'agents avec des trous à remplir.',
+    mapping: 'Ton code: <b>brief agent avec contexte injecté</b> → LangChain: <b>template.invoke({variables})</b>',
+    params: [
+      { id: 'specialite', label: 'Spécialité', type: 'text', default: 'IA' },
+      { id: 'langue', label: 'Langue', type: 'select', options: ['français', 'anglais', 'espagnol'], default: 'français' },
+      { id: 'question', label: 'Question', type: 'text', default: 'Quelle est la différence entre fine-tuning et RAG ?' },
+    ],
+    code: `from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate
+import os
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ"
+
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+
+# Template = prompt paramétrable avec des {variables}
+template = ChatPromptTemplate.from_messages([
+    ("system", "Tu es un consultant {specialite}. Réponds en {langue}, max 3 phrases."),
+    ("human", "{question}"),
+])
+
+# On remplit les variables — change-les ci-dessus !
+prompt = template.invoke({
+    "specialite": "{{specialite}}",
+    "langue": "{{langue}}",
+    "question": "{{question}}"
+})
+
+response = llm.invoke(prompt)
+print("🤖 Réponse :", response.content)
+print("\\n📋 Template utilisé :")
+print(f"   Spécialité = {{specialite}}")
+print(f"   Langue = {{langue}}")`,
+    takeaway: '💡 <b>ChatPromptTemplate</b> = ton brief d\'agent paramétrable. Tu définis le template UNE fois, tu le réutilises avec des variables différentes.',
+    challenges: [
+      { text: 'Change la spécialité en <code>SEO</code> et la question en <code>"Comment ranker sur un mot-clé concurrentiel ?"</code>', hint: 'Le template s\'adapte — même code, résultat différent' },
+      { text: 'Passe la langue en <code>anglais</code> — la réponse switch automatiquement', hint: 'Le template injecte la langue dans le system prompt' },
+      { text: 'Dans l\'éditeur, ajoute une variable <code>{niveau}</code> au system prompt : <code>"Réponds pour un {niveau}"</code> et ajoute-la dans invoke()', hint: 'Tu peux ajouter autant de variables que tu veux dans un template' },
+    ]
+  },
+  {
+    id: '2a',
+    tab: '4. Chains |',
+    title: '🔹 Chains — Connecter des étapes avec |',
+    explain: 'Le <b>pipe |</b> connecte des étapes : prompt → llm → parser. C\'est le concept central de LangChain (LCEL).',
+    mapping: 'Ton code: <b>brief → LLM → contrôle → output</b> → LangChain: <b>prompt | llm | parser</b>',
+    params: [
+      { id: 'secteur', label: 'Secteur', type: 'text', default: 'e-commerce santé' },
+    ],
+    code: `from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+import os
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ"
+
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+parser = StrOutputParser()  # Extrait juste le texte
+
+# Le PIPE | connecte les étapes :
+# prompt → llm → parser
+chain = ChatPromptTemplate.from_messages([
+    ("system", "Tu es un expert SEO français. Réponds en 3 bullet points max."),
+    ("human", "Donne les quick wins SEO pour un site {secteur}"),
+]) | llm | parser
+
+# invoke() fait tout passer dans l'ordre
+result = chain.invoke({"secteur": "{{secteur}}"})
+print(result)`,
+    takeaway: '💡 Le <b>pipe |</b> = des LEGO. Tu connectes des blocs. <b>prompt | llm | parser</b> = chaîne complète. Tu peux ajouter des blocs au milieu.',
+    challenges: [
+      { text: 'Change le secteur en <code>dentaire</code> (comme Infinity Medical)', hint: 'Le même chain donne des quick wins SEO adaptés au secteur' },
+      { text: 'Dans l\'éditeur, change "3 bullet points" en <code>"un plan d\'action en 5 étapes"</code>', hint: 'Tu modifies le system prompt du template, le pipe reste identique' },
+      { text: 'Enlève <code>| parser</code> du chain et re-run — tu verras l\'objet Message brut', hint: 'Le parser transforme l\'objet LangChain en texte lisible' },
+    ]
+  },
+  {
+    id: '2b',
+    tab: '5. Multi-step',
+    title: '🔹 Multi-step — Chaîner 2 appels LLM',
+    explain: 'Enchaîner 2 chains = le LLM analyse d\'abord, puis propose une solution. Comme <b>Jarvis qui délègue</b> : comprendre → agir.',
+    mapping: 'Ton code: <b>Sullivan demande → Jarvis analyse → agent exécute</b> → LangChain: <b>step1.invoke() → step2.invoke()</b>',
+    params: [
+      { id: 'besoin', label: 'Besoin client', type: 'text', default: 'Un groupe pharma veut automatiser le traitement de ses documents réglementaires' },
+    ],
+    code: `from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+import os
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ"
+
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+parser = StrOutputParser()
+
+# STEP 1 : Analyser le besoin
+step1 = ChatPromptTemplate.from_messages([
+    ("system", "Analyse ce besoin client et identifie 3 cas d'usage IA. Une ligne par cas."),
+    ("human", "{besoin}"),
+]) | llm | parser
+
+# STEP 2 : Proposer une archi basée sur l'analyse
+step2 = ChatPromptTemplate.from_messages([
+    ("system", "Tu es un architecte IA. Propose une stack technique en 5 lignes max."),
+    ("human", "Cas d'usage :\\n{analyse}\\n\\nPropose une architecture."),
+]) | llm | parser
+
+# Exécution séquentielle — change le besoin !
+print("📋 STEP 1 — Analyse :")
+analyse = step1.invoke({"besoin": "{{besoin}}"})
+print(analyse)
+
+print("\\n🏗️ STEP 2 — Architecture :")
+archi = step2.invoke({"analyse": analyse})
+print(archi)`,
+    takeaway: '💡 <b>Multi-step</b> = tu chaînes des chains. Le résultat du step 1 alimente le step 2. C\'est ton workflow Jarvis → agent → output.',
+    challenges: [
+      { text: 'Change le besoin en <code>"Une clinique dentaire veut automatiser la prise de RDV et le suivi patient"</code>', hint: 'Pertinent pour Infinity Medical — tu verras l\'IA analyser puis architecturer' },
+      { text: 'Ajoute un STEP 3 dans l\'éditeur : un chain qui estime le coût et le délai du projet', hint: 'Copie le pattern step2 et change le system prompt' },
+      { text: 'Change le system du step1 pour qu\'il identifie <code>5 cas d\'usage</code> au lieu de 3', hint: 'Plus de cas → architecture plus riche au step 2' },
+    ]
+  },
+  {
+    id: '3a',
+    tab: '6. RAG 🔥',
+    title: '🔥 RAG — Retrieval Augmented Generation',
+    explain: 'TON pipeline Qdrant en syntaxe LangChain. Chunk → Embed → Store → Retrieve → LLM. <b>C\'est le plus important pour la mission pharma.</b>',
+    mapping: 'Ton code: <b>query.js → Qdrant → contexte → LLM</b> → LangChain: <b>retriever | format | prompt | llm</b>',
+    params: [
+      { id: 'question', label: 'Question RAG', type: 'text', default: 'Quels sont les projets prioritaires de Sullivan ?' },
+      { id: 'k', label: 'Top K résultats', type: 'select', options: ['2', '3', '5'], default: '3' },
+    ],
+    code: `from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.documents import Document
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_ollama import OllamaEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from qdrant_client import QdrantClient
+from qdrant_client.models import Distance, VectorParams
+import os, glob
+
+os.environ["GOOGLE_API_KEY"] = "AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ"
+
+# 1. CHARGER PLEIN de docs (plus de variété = meilleur retrieval)
+docs = []
+for f in ["SOUL.md", "USER.md", "TOOLS.md", "HEARTBEAT.md"]:
+    try:
+        with open(f"/root/openclaw/{f}") as fh:
+            docs.append(Document(page_content=fh.read()[:4000], metadata={"source": f}))
+    except: pass
+
+# Ajouter les daily logs récents (vrais données !)
+for log in sorted(glob.glob("/root/openclaw/memory/2026-03-*.md"))[-5:]:
+    try:
+        with open(log) as fh:
+            docs.append(Document(page_content=fh.read()[:4000], metadata={"source": os.path.basename(log)}))
+    except: pass
+
+print(f"📄 {len(docs)} documents chargés")
+
+# 2. CHUNKING
+splitter = RecursiveCharacterTextSplitter(chunk_size=400, chunk_overlap=50)
+chunks = splitter.split_documents(docs)
+print(f"✂️ {len(chunks)} chunks créés")
+
+# 3. EMBEDDINGS + STOCKAGE
+embeddings = OllamaEmbeddings(model="nomic-embed-text", base_url="http://localhost:11434")
+client = QdrantClient(url="http://localhost:6333")
+if client.collection_exists("langchain_training"):
+    client.delete_collection("langchain_training")
+client.create_collection(
+    collection_name="langchain_training",
+    vectors_config=VectorParams(size=768, distance=Distance.COSINE),
+)
+vectorstore = QdrantVectorStore(
+    client=client, collection_name="langchain_training", embedding=embeddings,
+)
+vectorstore.add_documents(chunks)
+print(f"✅ Indexé dans Qdrant")
+
+# 4. RETRIEVER
+retriever = vectorstore.as_retriever(search_kwargs={"k": {{k}}})
+
+# 5. D'ABORD — montrer quels chunks sont récupérés
+question = "{{question}}"
+print(f"\\n❓ Question : {question}")
+retrieved = retriever.invoke(question)
+print(f"\\n🔍 CHUNKS RÉCUPÉRÉS ({len(retrieved)}) :")
+for i, doc in enumerate(retrieved):
+    preview = doc.page_content[:120].replace("\\n", " ")
+    print(f"  [{i+1}] 📄 {doc.metadata['source']} → {preview}...")
+
+# 6. RAG CHAIN
+def format_docs(docs):
+    return "\\n---\\n".join(f"[{d.metadata['source']}] {d.page_content}" for d in docs)
+
+rag_chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | ChatPromptTemplate.from_messages([
+        ("system", "Réponds en français en te basant UNIQUEMENT sur ce contexte :\\n{context}"),
+        ("human", "{question}"),
+    ])
+    | ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+    | StrOutputParser()
+)
+
+print(f"\\n🤖 RÉPONSE RAG :")
+print(rag_chain.invoke(question))`,
+    takeaway: '💡 <b>RAG LangChain = ton pipeline Qdrant</b>. Chunks → Embeddings → VectorStore → Retriever → LLM. En entretien : "J\'implémente des pipelines RAG avec Qdrant et LangChain LCEL".',
+    challenges: [
+      { text: 'Essaie <code>"Quel est le rôle de chaque agent IA ?"</code> puis <code>"Quels outils utilise Sullivan ?"</code>', hint: 'Regarde les CHUNKS — ils changent selon la question !' },
+      { text: 'Passe Top K à <code>5</code> — plus de contexte → réponse plus riche (mais plus lente)', hint: 'K = nombre de chunks récupérés. Trade-off : pertinence vs bruit' },
+      { text: 'Dans l\'éditeur, change <code>chunk_size=500</code> en <code>chunk_size=200</code> et re-run', hint: 'Chunks plus petits = plus précis mais moins de contexte par chunk' },
+    ]
+  },
+];
+
+let currentEx = 0;
+let completed = new Set();
+
+function init() {
+  const tabs = document.getElementById('exercise-tabs');
+  EXERCISES.forEach((ex, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'ex-btn' + (i === 0 ? ' active' : '');
+    btn.textContent = ex.tab;
+    btn.onclick = () => loadEx(i);
+    btn.id = 'tab-' + i;
+    tabs.appendChild(btn);
+  });
+  loadEx(0);
+}
+
+function loadEx(idx) {
+  browseMode = false;
+  currentEx = idx;
+  const ex = EXERCISES[idx];
+  
+  // Restore editor if coming from browse mode
+  const treeContainer = document.getElementById('file-tree-container');
+  if (treeContainer) treeContainer.remove();
+  const editor = document.getElementById('editor');
+  editor.style.display = 'block';
+  editor.style.flex = '1';
+  editor.readOnly = false;
+  document.getElementById('tab-browse').classList.remove('active');
+  
+  // Update tabs
+  document.querySelectorAll('.ex-btn').forEach((b, i) => {
+    b.classList.remove('active');
+    if (i === idx) b.classList.add('active');
+  });
+  
+  // Explain
+  document.getElementById('explain').innerHTML = 
+    `<div class="title">${ex.title}</div>` +
+    `<div>${ex.explain}</div>` +
+    `<div class="mapping">${ex.mapping}</div>`;
+  
+  // Params
+  const paramsEl = document.getElementById('params');
+  paramsEl.innerHTML = '';
+  ex.params.forEach(p => {
+    const group = document.createElement('div');
+    group.className = 'param-group';
+    group.innerHTML = `<span class="param-label">${p.label}:</span>`;
+    
+    if (p.type === 'select') {
+      const sel = document.createElement('select');
+      sel.className = 'param-select';
+      sel.id = 'param-' + p.id;
+      p.options.forEach(o => {
+        const opt = document.createElement('option');
+        opt.value = o; opt.textContent = o;
+        if (o === p.default) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      group.appendChild(sel);
+    } else {
+      const inp = document.createElement('input');
+      inp.className = 'param-input';
+      inp.id = 'param-' + p.id;
+      inp.value = p.default;
+      inp.style.minWidth = Math.min(400, Math.max(150, p.default.length * 8)) + 'px';
+      group.appendChild(inp);
+    }
+    paramsEl.appendChild(group);
+  });
+  
+  // Challenges
+  const challEl = document.getElementById('challenges');
+  if (ex.challenges && ex.challenges.length) {
+    let html = '<div class="challenges-title">🎯 Défis — Essaie ça :</div>';
+    ex.challenges.forEach((c, i) => {
+      html += `<div class="challenge" onclick="this.classList.toggle('done')" id="ch-${idx}-${i}">
+        <div class="challenge-check"></div>
+        <div>
+          <div class="challenge-text">${c.text}</div>
+          <div class="challenge-hint">💡 ${c.hint}</div>
+        </div>
+      </div>`;
+    });
+    challEl.innerHTML = html;
+    challEl.style.display = 'block';
+  } else {
+    challEl.style.display = 'none';
+  }
+
+  // Code
+  updateCode();
+  
+  // Output
+  const output = document.getElementById('output');
+  output.className = 'output-area waiting';
+  output.textContent = 'Change les paramètres ci-dessus et clique ▶ RUN';
+  
+  // Takeaway
+  document.getElementById('takeaway').className = 'takeaway';
+  
+  // Progress
+  document.getElementById('progress-text').textContent = `${completed.size}/${EXERCISES.length}`;
+}
+
+function updateCode() {
+  const ex = EXERCISES[currentEx];
+  let code = ex.code;
+  ex.params.forEach(p => {
+    const el = document.getElementById('param-' + p.id);
+    if (el) code = code.replaceAll('{{' + p.id + '}}', el.value);
+  });
+  document.getElementById('editor').value = code;
+}
+
+function resetCode() {
+  const ex = EXERCISES[currentEx];
+  ex.params.forEach(p => {
+    const el = document.getElementById('param-' + p.id);
+    if (el) {
+      if (p.type === 'select') el.value = p.default;
+      else el.value = p.default;
+    }
+  });
+  updateCode();
+}
+
+// Update code when params change
+document.getElementById('params').addEventListener('input', updateCode);
+document.getElementById('params').addEventListener('change', updateCode);
+
+async function runCode() {
+  const btn = document.getElementById('run-btn');
+  const output = document.getElementById('output');
+  const code = document.getElementById('editor').value;
+  
+  btn.disabled = true;
+  btn.className = 'run-btn running';
+  btn.textContent = '⏳ Running...';
+  output.className = 'output-area running';
+  output.textContent = '⏳ Exécution en cours...\nLes appels LLM prennent quelques secondes...';
+  
+  try {
+    const res = await fetch('/api/training-exec', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ code })
+    });
+    const data = await res.json();
+    
+    output.className = data.success ? 'output-area success' : 'output-area error';
+    output.textContent = data.output;
+    
+    if (data.success) {
+      completed.add(currentEx);
+      document.getElementById('tab-' + currentEx).classList.add('done');
+      document.getElementById('progress-text').textContent = `${completed.size}/${EXERCISES.length}`;
+      
+      // Show takeaway
+      const tw = document.getElementById('takeaway');
+      tw.innerHTML = EXERCISES[currentEx].takeaway;
+      tw.className = 'takeaway show';
+    }
+  } catch(e) {
+    output.className = 'output-area error';
+    output.textContent = '❌ Erreur: ' + e.message;
+  }
+  
+  btn.disabled = false;
+  btn.className = 'run-btn';
+  btn.textContent = '▶ RUN';
+}
+
+// ========== FILE BROWSER MODE ==========
+let browseMode = false;
+let fileTree = null;
+
+async function openBrowser() {
+  browseMode = true;
+  
+  // Update tabs
+  document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-browse').classList.add('active');
+  
+  // Hide exercise UI, show browser
+  document.getElementById('explain').innerHTML = 
+    '<div class="title">📂 Tes scripts Python — Browse, analyse, importe</div>' +
+    '<div>Clique sur un fichier pour voir le code. <b>▶ RUN</b> pour l\'exécuter. <b>📥 Importer</b> pour le charger dans l\'éditeur d\'exercice.</div>';
+  
+  document.getElementById('challenges').style.display = 'none';
+  document.getElementById('params').innerHTML = '';
+  
+  // Load file tree in left panel
+  const editor = document.getElementById('editor');
+  editor.value = '# Sélectionne un fichier Python à gauche...';
+  editor.readOnly = false;
+  
+  // Replace left panel with file tree
+  const leftPanel = editor.parentElement;
+  const existingTree = document.getElementById('file-tree-container');
+  if (existingTree) existingTree.remove();
+  
+  const treeContainer = document.createElement('div');
+  treeContainer.id = 'file-tree-container';
+  treeContainer.className = 'file-tree';
+  treeContainer.innerHTML = '<div style="color:var(--muted);font-size:.8rem;padding:.5rem">⏳ Chargement...</div>';
+  leftPanel.insertBefore(treeContainer, editor);
+  editor.style.flex = '0';
+  editor.style.display = 'none';
+  
+  // Fetch tree
+  try {
+    const res = await fetch('/api/training-browse');
+    const data = await res.json();
+    fileTree = data.tree;
+    renderTree(treeContainer, fileTree);
+  } catch(e) {
+    treeContainer.innerHTML = `<div style="color:var(--red);padding:.5rem">❌ ${e.message}</div>`;
+  }
+}
+
+function renderTree(container, items) {
+  container.innerHTML = '';
+  for (const item of items) {
+    if (item.type === 'dir') {
+      const dir = document.createElement('div');
+      const label = document.createElement('div');
+      label.className = 'tree-dir';
+      label.textContent = item.name;
+      const children = document.createElement('div');
+      children.className = 'tree-children';
+      renderTree(children, item.children);
+      label.onclick = () => {
+        label.classList.toggle('open');
+        children.classList.toggle('open');
+      };
+      dir.appendChild(label);
+      dir.appendChild(children);
+      container.appendChild(dir);
+    } else {
+      const file = document.createElement('div');
+      file.className = 'tree-file';
+      const sizeKb = (item.size / 1024).toFixed(1);
+      file.innerHTML = `<span>🐍 ${item.name}</span><span class="meta">${sizeKb}KB · ${item.modified}</span>`;
+      file.onclick = () => loadFile(item.path, file);
+      container.appendChild(file);
+    }
+  }
+}
+
+async function loadFile(path, el) {
+  // Highlight active
+  document.querySelectorAll('.tree-file').forEach(f => f.classList.remove('active'));
+  if (el) el.classList.add('active');
+  
+  const output = document.getElementById('output');
+  output.className = 'output-area waiting';
+  output.textContent = '⏳ Chargement...';
+  
+  try {
+    // Load code
+    const res = await fetch(`/api/training-browse?path=${encodeURIComponent(path)}`);
+    const data = await res.json();
+    
+    // Show code in right panel as output (since left is tree)
+    const editor = document.getElementById('editor');
+    editor.style.display = 'block';
+    editor.style.flex = '1';
+    const treeContainer = document.getElementById('file-tree-container');
+    if (treeContainer) { treeContainer.style.maxHeight = '40%'; treeContainer.style.overflow = 'auto'; treeContainer.style.borderBottom = '1px solid var(--border)'; }
+    editor.value = data.code;
+    editor.dataset.path = path;
+    
+    // Analyze
+    const analyzeRes = await fetch('/api/training-analyze', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ path })
+    });
+    const { analysis } = await analyzeRes.json();
+    
+    // Show analysis in output
+    let out = `📄 ${path}\n`;
+    out += `📏 ${analysis.lines} lignes\n\n`;
+    
+    if (analysis.patterns.length) {
+      out += `🏷️ TECHNOLOGIES DÉTECTÉES :\n`;
+      out += analysis.patterns.map(p => `   ${p}`).join('\n') + '\n\n';
+    }
+    
+    if (analysis.functions.length) {
+      out += `⚙️ FONCTIONS (${analysis.functions.length}) :\n`;
+      out += analysis.functions.map(f => `   def ${f}()`).join('\n') + '\n\n';
+    }
+    
+    if (analysis.classes.length) {
+      out += `🏗️ CLASSES :\n`;
+      out += analysis.classes.map(c => `   class ${c}`).join('\n') + '\n\n';
+    }
+    
+    if (analysis.imports.length) {
+      out += `📦 IMPORTS (${analysis.imports.length}) :\n`;
+      out += analysis.imports.slice(0, 15).map(i => `   ${i}`).join('\n');
+      if (analysis.imports.length > 15) out += `\n   ... et ${analysis.imports.length - 15} de plus`;
+      out += '\n\n';
+    }
+    
+    out += `\n💡 Clique ▶ RUN pour exécuter ce script\n`;
+    out += `📥 Clique "Importer dans exercice" pour le modifier dans le lab`;
+    
+    output.className = 'output-area success';
+    output.textContent = out;
+    
+    // Update params with import button
+    document.getElementById('params').innerHTML = `
+      <span class="param-label" style="color:#bc8cff">📄 ${path}</span>
+      <span class="param-label">${analysis.lines} lignes</span>
+      ${analysis.patterns.map(p => `<span class="analysis-tag pattern">${p}</span>`).join('')}
+      <button class="import-btn" onclick="importToExercise()">📥 Importer dans exercice</button>
+    `;
+    
+  } catch(e) {
+    output.className = 'output-area error';
+    output.textContent = '❌ ' + e.message;
+  }
+}
+
+function importToExercise() {
+  const code = document.getElementById('editor').value;
+  browseMode = false;
+  
+  // Restore normal view
+  const treeContainer = document.getElementById('file-tree-container');
+  if (treeContainer) treeContainer.remove();
+  const editor = document.getElementById('editor');
+  editor.style.display = 'block';
+  editor.style.flex = '1';
+  editor.readOnly = false;
+  
+  // Clear exercise selection
+  document.querySelectorAll('.ex-btn').forEach(b => b.classList.remove('active'));
+  
+  document.getElementById('explain').innerHTML = 
+    '<div class="title">✏️ Mode libre — Script importé</div>' +
+    '<div>Modifie le code et clique <b>▶ RUN</b> pour l\'exécuter.</div>';
+  document.getElementById('challenges').style.display = 'none';
+  document.getElementById('params').innerHTML = '<span class="param-label" style="color:#bc8cff">Mode libre — script importé</span>';
+  
+  const output = document.getElementById('output');
+  output.className = 'output-area waiting';
+  output.textContent = 'Script importé. Modifie-le et clique ▶ RUN.';
+}
+
+// Override runCode to handle browse mode
+const _origRunCode = runCode;
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎤 Interview Assistant — Sullivan</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117; --card: #161b22; --border: #30363d;
+  --text: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+  --green: #3fb950; --orange: #d29922; --red: #f85149;
+  --radius: 12px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); font-size:14px; height:100vh; display:flex; flex-direction:column; }
+
+/* Header */
+.header {
+  background:var(--card); padding:.8rem 1.2rem; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+}
+.header h1 { font-size:1rem; font-weight:700; }
+.header h1 span { color:var(--accent); }
+.controls { display:flex; gap:.5rem; align-items:center; }
+.btn {
+  padding:.4rem 1rem; border-radius:8px; border:1px solid var(--border);
+  background:var(--card); color:var(--text); font-size:.8rem; cursor:pointer;
+  font-family:inherit; font-weight:600; transition:all .15s;
+}
+.btn:hover { border-color:var(--accent); }
+.btn-record { background:#1a3a1a; border-color:var(--green); color:var(--green); }
+.btn-record.active { background:var(--green); color:#000; animation:pulse 1.5s infinite; }
+.btn-stop { background:#3a1a1a; border-color:var(--red); color:var(--red); }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.7} }
+.status { font-size:.75rem; color:var(--muted); }
+.status.live { color:var(--green); }
+
+/* Main layout */
+.main { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:0; overflow:hidden; }
+
+/* Left panel - Transcription */
+.panel { display:flex; flex-direction:column; border-right:1px solid var(--border); overflow:hidden; }
+.panel:last-child { border-right:none; }
+.panel-header {
+  padding:.6rem 1rem; background:var(--card); border-bottom:1px solid var(--border);
+  font-size:.75rem; font-weight:700; color:var(--muted); text-transform:uppercase;
+  letter-spacing:.05em; display:flex; justify-content:space-between; align-items:center;
+}
+.panel-body { flex:1; overflow-y:auto; padding:.8rem 1rem; }
+
+/* Transcript */
+.transcript-line {
+  padding:.5rem .7rem; margin-bottom:.4rem; border-radius:8px;
+  font-size:.85rem; line-height:1.5; transition:background .2s;
+}
+.transcript-line:hover { background:rgba(88,166,255,.05); }
+.transcript-line .time { font-size:.65rem; color:var(--muted); margin-right:.5rem; font-variant-numeric:tabular-nums; }
+.transcript-line .text-en { color:var(--text); }
+.transcript-line .text-fr { color:var(--muted); font-size:.78rem; font-style:italic; margin-top:.2rem; }
+.transcript-line.question { border-left:3px solid var(--accent); background:rgba(88,166,255,.05); }
+.transcript-current { background:rgba(88,166,255,.08); border:1px solid rgba(88,166,255,.15); }
+
+/* Suggestions */
+.suggestion {
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:1rem; margin-bottom:.8rem; transition:all .2s;
+}
+.suggestion:hover { border-color:var(--accent); }
+.suggestion .label { font-size:.65rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.04em; margin-bottom:.4rem; }
+.suggestion .answer { font-size:.88rem; line-height:1.7; color:var(--text); }
+.suggestion .answer-fr { font-size:.78rem; color:var(--muted); margin-top:.5rem; font-style:italic; border-top:1px solid var(--border); padding-top:.5rem; }
+.suggestion .copy-btn {
+  margin-top:.5rem; padding:.25rem .7rem; border-radius:6px;
+  border:1px solid var(--border); background:transparent; color:var(--muted);
+  font-size:.7rem; cursor:pointer; font-family:inherit; transition:all .15s;
+}
+.suggestion .copy-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+/* Cheat sheet */
+.cheat-section { margin-bottom:1rem; }
+.cheat-section h3 { font-size:.8rem; font-weight:700; color:var(--accent); margin-bottom:.5rem; }
+.cheat-item {
+  padding:.5rem .7rem; margin-bottom:.3rem; border-radius:6px;
+  background:var(--card); border:1px solid var(--border); cursor:pointer;
+  font-size:.82rem; transition:all .15s;
+}
+.cheat-item:hover { border-color:var(--accent); background:rgba(88,166,255,.05); }
+.cheat-item .q { font-weight:600; color:var(--text); margin-bottom:.2rem; }
+.cheat-item .a { color:var(--text2,#b0b8c4); font-size:.82rem; line-height:1.6; margin-top:.4rem; padding-top:.4rem; border-top:1px solid var(--border); }
+.cheat-item.closed .a { display:none; }
+
+/* Bottom bar */
+.bottom-bar {
+  background:var(--card); border-top:1px solid var(--border);
+  padding:.5rem 1rem; display:flex; gap:.5rem; align-items:center;
+}
+.bottom-bar input {
+  flex:1; padding:.5rem .8rem; border-radius:8px;
+  border:1px solid var(--border); background:var(--bg); color:var(--text);
+  font-size:.85rem; font-family:inherit;
+}
+.bottom-bar input:focus { outline:none; border-color:var(--accent); }
+.bottom-bar .send-btn {
+  padding:.5rem 1rem; border-radius:8px; border:none;
+  background:var(--accent); color:#fff; font-weight:700; cursor:pointer;
+  font-size:.8rem; font-family:inherit;
+}
+
+/* Tabs */
+.tabs { display:flex; gap:0; }
+.tab {
+  padding:.4rem .8rem; font-size:.7rem; font-weight:600; cursor:pointer;
+  color:var(--muted); border-bottom:2px solid transparent; transition:all .15s;
+}
+.tab:hover { color:var(--text); }
+.tab.active { color:var(--accent); border-bottom-color:var(--accent); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Responsive */
+@media (max-width:800px) {
+  .main { grid-template-columns:1fr; }
+  .panel { border-right:none; border-bottom:1px solid var(--border); max-height:50vh; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🎤 <span>Interview</span> Assistant</h1>
+  <div class="controls">
+    <span class="status" id="status">⏸ En attente</span>
+    <select class="btn" id="lang-select" style="padding:.35rem .5rem">
+      <option value="en-US">🇺🇸 English</option>
+      <option value="fr-FR">🇫🇷 Français</option>
+    </select>
+    <button class="btn btn-record" id="btn-record" onclick="toggleRecord()">🎙 Écouter</button>
+    <button class="btn btn-stop" onclick="clearAll()">🗑 Reset</button>
+  </div>
+</div>
+
+<div class="main">
+  <!-- Left: Transcription -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>📝 Transcription live</span>
+      <span id="line-count">0 lignes</span>
+    </div>
+    <div class="panel-body" id="transcript"></div>
+  </div>
+
+  <!-- Right: Suggestions + Cheat sheet -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="tabs">
+        <div class="tab" onclick="switchTab('suggestions')">💡 Suggestions</div>
+        <div class="tab active" onclick="switchTab('cheatsheet')">📋 Cheat Sheet</div>
+        <div class="tab" onclick="switchTab('notes')">📝 Notes</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="tab-content" id="tab-suggestions">
+        <div id="suggestions">
+          <div class="suggestion">
+            <div class="label">En attente</div>
+            <div class="answer" style="color:var(--muted)">Lancez l'écoute pour recevoir des suggestions de réponses en temps réel...</div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-content active" id="tab-cheatsheet">
+        <div id="cheatsheet"></div>
+      </div>
+      <div class="tab-content" id="tab-notes">
+        <textarea id="notes-area" style="width:100%;min-height:300px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:.8rem;color:var(--text);font-family:inherit;font-size:.85rem;resize:vertical" placeholder="Prends des notes pendant l'entretien..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-bar">
+  <input type="text" id="manual-input" placeholder="Tape une question manuellement pour obtenir une suggestion de réponse..." onkeydown="if(event.key==='Enter')manualAsk()">
+  <button class="send-btn" onclick="manualAsk()">💡 Suggérer</button>
+</div>
+
+<script>
+// Sullivan's profile for context
+const PROFILE = `Sullivan Magdaleon — 10 years digital experience.
+Skills: AI/LLM orchestration (12-agent system with OpenClaw), SEO/data analytics, WordPress development, technical project management, network administration.
+Recent: Built autonomous AI agent system managing prospection, content, SEO audits. Freelance AI/SEO consultant.
+Stack: Python, Node.js, React, Next.js, Three.js, Docker, Anthropic Claude, OpenAI, Gemini.
+Languages: French (native), English (professional).
+Looking for: AI Engineer, LLM/Agent Developer, Technical PM, SEO/Data Lead freelance missions.
+Key achievements: 12-agent AI system in production, 1700+ RAG memories indexed, automated candidature pipeline, multi-channel bot (Telegram/WhatsApp).`;
+
+const GEMINI_KEY = 'AIzaSyAd8d0buBn_Lj-V339YXv9UHVoqI8LvFGQ';
+let recognition = null;
+let isRecording = false;
+let transcript = [];
+let suggestionQueue = null;
+
+// Speech recognition
+function initSpeech() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Speech Recognition not supported. Use Chrome.'); return; }
+  recognition = new SR();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = document.getElementById('lang-select').value;
+  
+  recognition.onresult = (e) => {
+    let final = '', interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) { final += t; } else { interim += t; }
+    }
+    if (final) addTranscriptLine(final.trim());
+    updateCurrent(fixTranscript(interim));
+    
+    // Pre-generate on interim if long enough (don't wait for final)
+    if (interim.length > 30) {
+      clearTimeout(window._interimDebounce);
+      window._interimDebounce = setTimeout(() => {
+        if (!window._lastInterimSuggestion || Date.now() - window._lastInterimSuggestion > 5000) {
+          window._lastInterimSuggestion = Date.now();
+          generateSuggestion(interim, true);
+        }
+      }, 1500);
+    }
+  };
+  
+  recognition.onend = () => { if (isRecording) recognition.start(); };
+  recognition.onerror = (e) => { console.error('SR error:', e.error); };
+}
+
+function toggleRecord() {
+  if (!recognition) initSpeech();
+  if (isRecording) {
+    isRecording = false;
+    recognition.stop();
+    document.getElementById('btn-record').classList.remove('active');
+    document.getElementById('btn-record').textContent = '🎙 Écouter';
+    document.getElementById('status').textContent = '⏸ En pause';
+    document.getElementById('status').className = 'status';
+  } else {
+    recognition.lang = document.getElementById('lang-select').value;
+    isRecording = true;
+    recognition.start();
+    document.getElementById('btn-record').classList.add('active');
+    document.getElementById('btn-record').textContent = '⏸ Pause';
+    document.getElementById('status').textContent = '🔴 Écoute en cours...';
+    document.getElementById('status').className = 'status live';
+  }
+}
+
+// Fix common speech recognition mistakes (French words in English mode)
+const CORRECTIONS = {
+  // Company names
+  'la company this animal': 'La Compagnie des Animaux',
+  'la company des animal': 'La Compagnie des Animaux',
+  'la compagnie this animal': 'La Compagnie des Animaux',
+  'company animal': 'La Compagnie des Animaux',
+  'company des animaux': 'La Compagnie des Animaux',
+  'la company day animal': 'La Compagnie des Animaux',
+  'la company day animaux': 'La Compagnie des Animaux',
+  'comp any animal': 'La Compagnie des Animaux',
+  'agency aaron': 'Agence AARON',
+  'agency are on': 'Agence AARON',
+  'a ron agency': 'Agence AARON',
+  'a cap of': 'ACPPAV',
+  'a cap av': 'ACPPAV',
+  'ac pav': 'ACPPAV',
+  
+  // Tech terms
+  'clod': 'Claude',
+  'clawed': 'Claude',
+  'cloud opus': 'Claude Opus',
+  'cloud sonnet': 'Claude Sonnet',
+  'anthrobic': 'Anthropic',
+  'antropic': 'Anthropic',
+  'anthropik': 'Anthropic',
+  'lance chain': 'LangChain',
+  'lang chain': 'LangChain',
+  'lance graph': 'LangGraph',
+  'lang graph': 'LangGraph',
+  'can try': 'Qdrant',
+  'queue drant': 'Qdrant',
+  'cue dront': 'Qdrant',
+  'rag': 'RAG',
+  'docker': 'Docker',
+  'olama': 'Ollama',
+  'oh llama': 'Ollama',
+  'open claw': 'OpenClaw',
+  'open cla': 'OpenClaw',
+  'gemini': 'Gemini',
+  'gpt': 'GPT',
+  'cloud run': 'Cloud Run',
+  'ship up': 'ShipUp',
+  'shipping bo': 'Shippingbo',
+  'python': 'Python',
+  'node js': 'Node.js',
+  'node.js': 'Node.js',
+  'react': 'React',
+  'next js': 'Next.js',
+  'type script': 'TypeScript',
+  
+  // French terms commonly said
+  'free launch': 'freelance',
+  'free lance': 'freelance',
+  'ing any air': 'ingénieur',
+  'ing any err': 'ingénieur',
+  'day ploy': 'deploy',
+  'or cas tray': 'orchestrate',
+  'or kestrel': 'orchestrate',
+  'pwa': 'PWA',
+  'api': 'API',
+  'llm': 'LLM',
+  'nlp': 'NLP',
+  'crm': 'CRM',
+  'seo': 'SEO',
+  'devops': 'DevOps',
+  'ci cd': 'CI/CD',
+};
+
+function fixTranscript(text) {
+  let fixed = text;
+  // Sort by length desc to match longer phrases first
+  const sorted = Object.entries(CORRECTIONS).sort((a, b) => b[0].length - a[0].length);
+  for (const [wrong, right] of sorted) {
+    const regex = new RegExp(wrong.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+    fixed = fixed.replace(regex, right);
+  }
+  return fixed;
+}
+
+async function addTranscriptLine(text) {
+  text = fixTranscript(text); // Local fix first (instant)
+  
+  // Then AI fix (async, updates in place)
+  try {
+    const fixRes = await fetch('/api/interview-fix', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ text })
+    });
+    const { fixed } = await fixRes.json();
+    if (fixed && fixed !== text) text = fixed;
+  } catch(e) { /* keep local fix */ }
+  const time = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const isQuestion = text.includes('?') || text.toLowerCase().startsWith('what') || text.toLowerCase().startsWith('how') || 
+    text.toLowerCase().startsWith('why') || text.toLowerCase().startsWith('can you') || text.toLowerCase().startsWith('tell');
+  
+  transcript.push({ time, text, isQuestion });
+  
+  const el = document.getElementById('transcript');
+  const div = document.createElement('div');
+  div.className = `transcript-line ${isQuestion ? 'question' : ''}`;
+  div.innerHTML = `<span class="time">${time}</span><span class="text-en">${text}</span>`;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  document.getElementById('line-count').textContent = `${transcript.length} lignes`;
+  
+  // Generate suggestion only for questions or substantial content
+  // Debounce 2s to avoid spam
+  clearTimeout(window._sugDebounce);
+  const isQuestion = text.includes('?') || /^(what|how|why|can you|tell|describe|explain|do you|have you|where|when)/i.test(text.trim());
+  if (isQuestion || text.split(' ').length > 8) {
+    window._sugDebounce = setTimeout(() => {
+      generateSuggestion(text);
+    }, 1500);
+  }
+}
+
+function updateCurrent(text) {
+  let cur = document.querySelector('.transcript-current');
+  if (!text) { if (cur) cur.remove(); return; }
+  if (!cur) {
+    cur = document.createElement('div');
+    cur.className = 'transcript-line transcript-current';
+    document.getElementById('transcript').appendChild(cur);
+  }
+  cur.innerHTML = `<span class="time">...</span><span class="text-en" style="opacity:.6">${text}</span>`;
+  document.getElementById('transcript').scrollTop = document.getElementById('transcript').scrollHeight;
+}
+
+async function generateSuggestion(question, isPreview = false) {
+  // Switch to suggestions tab automatically
+  if (!document.getElementById('tab-suggestions').classList.contains('active')) {
+    switchTabDirect('suggestions');
+  }
+  
+  const sugEl = document.getElementById('suggestions');
+  
+  // Remove previous preview if this is a new preview
+  if (isPreview) {
+    const prev = document.getElementById('preview-suggestion');
+    if (prev) prev.remove();
+  }
+  
+  // Add loading
+  const loading = document.createElement('div');
+  loading.className = 'suggestion';
+  if (isPreview) loading.id = 'preview-suggestion';
+  loading.style.borderColor = isPreview ? 'var(--orange)' : 'var(--border)';
+  loading.innerHTML = `<div class="label" style="color:${isPreview?'var(--orange)':'var(--accent)'}">${isPreview?'🔄 Pré-analyse...':'⏳ Génération...'}</div><div class="answer" style="color:var(--muted);font-size:.8rem">"${question.substring(0,60)}..."</div>`;
+  sugEl.prepend(loading);
+  
+  try {
+    const context = transcript.slice(-5).map(t => t.text).join('\n');
+
+    const res = await fetch('/api/interview-suggest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, context })
+    });
+    
+    const parsed = await res.json();
+    
+    loading.remove();
+    
+    const sug = document.createElement('div');
+    sug.className = 'suggestion';
+    
+    const answerEn = parsed.answer_en || 'No answer generated';
+    const answerFr = parsed.answer_fr || '';
+    const points = parsed.key_points || [];
+    
+    let html = `<div class="label">💡 SUGGESTED ANSWER</div>`;
+    html += `<div class="answer" style="font-size:.92rem;line-height:1.8;color:#e6edf3;padding:.5rem 0">${answerEn}</div>`;
+    if (points.length) {
+      html += `<div style="margin:.5rem 0;padding:.5rem .7rem;background:rgba(88,166,255,.05);border-radius:8px;font-size:.8rem;color:#8b949e">`;
+      points.forEach(p => { html += `<div style="padding:.15rem 0">📌 ${p}</div>`; });
+      html += `</div>`;
+    }
+    if (answerFr) {
+      html += `<div style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid #30363d;font-size:.8rem;color:#8b949e;font-style:italic">🇫🇷 ${answerFr}</div>`;
+    }
+    html += `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.dataset.text);this.textContent='✅ Copied!'" data-text="${answerEn.replace(/"/g,'&quot;')}">📋 Copy answer</button>`;
+    
+    sug.innerHTML = html;
+    // Keep max 3 suggestions, remove oldest
+    while (sugEl.children.length >= 3) sugEl.removeChild(sugEl.lastChild);
+    sugEl.prepend(sug);
+    
+  } catch (err) {
+    loading.innerHTML = `<div class="label" style="color:var(--red)">❌ Erreur</div><div class="answer" style="color:var(--muted)">${err.message}</div>`;
+  }
+}
+
+function manualAsk() {
+  const input = document.getElementById('manual-input');
+  const text = input.value.trim();
+  if (!text) return;
+  addTranscriptLine(text + '?');
+  generateSuggestion(text);
+  input.value = '';
+}
+
+function clearAll() {
+  transcript = [];
+  document.getElementById('transcript').innerHTML = '';
+  document.getElementById('suggestions').innerHTML = '<div class="suggestion"><div class="label">En attente</div><div class="answer" style="color:var(--muted)">Lancez l\'écoute...</div></div>';
+  document.getElementById('line-count').textContent = '0 lignes';
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+function switchTabDirect(name) {
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.remove('active');
+    if (t.textContent.toLowerCase().includes(name.substring(0,4))) t.classList.add('active');
+  });
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// Cheat sheet
+function loadCheatSheet() {
+  const sections = [
+    {
+      title: '🤖 AI & LLM Experience',
+      items: [
+        { q: 'Tell me about your experience with AI agents', a: 'I built and operate a 12-agent AI system using Anthropic Claude (Opus + Sonnet). Each agent has a specialized role: SEO audits, content writing, lead prospection, LinkedIn outreach, freelance job hunting. The system runs 24/7 with automated scheduling, RAG memory (1700+ indexed memories in Qdrant), and cross-platform communication via Telegram and WhatsApp.' },
+        { q: 'What LLM frameworks have you used?', a: 'I work primarily with Anthropic Claude API (Opus 4, Sonnet 4) through OpenClaw as an orchestration layer. I also use Gemini for embeddings and search, Ollama for local models, and have experience with OpenAI APIs. My stack includes RAG with Qdrant vector DB, prompt engineering with structured AGENT.md files, and automated evaluation systems.' },
+        { q: 'How do you handle hallucinations?', a: 'I implemented a multi-layer approach: structured rules files (RULES.md) with explicit constraints, YMYL-strict content guidelines requiring cited sources, automated candidature quality scoring, and a corrections feedback loop where every mistake is documented and propagated across agent configurations.' },
+        { q: 'Describe your RAG implementation', a: 'I use Qdrant as vector database with 1700+ indexed memories across 12 categories. Embeddings via Ollama locally. The system indexes daily logs, decisions, conversations, and metrics. Queries use hybrid search (semantic + keyword) for high relevance. It serves as the persistent memory for a stateless AI agent system.' },
+      ]
+    },
+    {
+      title: '💼 Technical PM & Architecture',
+      items: [
+        { q: 'How do you manage multiple projects?', a: 'I built Mission Control — a custom Next.js dashboard that tracks all projects, agent tasks, candidatures, campaigns, and KPIs in real time. I use a task board system with priorities, assignees, and automated status updates. My AI orchestrator (Jarvis) handles delegation across 12 specialized agents.' },
+        { q: 'Tell me about a challenging technical decision', a: 'When our 3D office visualization crashed on Mac due to WebGL context loss, I diagnosed the root cause — cloned GLB skeleton models consuming too much GPU memory. I rewrote the entire scene from scratch using primitive geometries, eliminating all 3D text components and model files while maintaining visual quality. The key was incremental testing.' },
+        { q: 'How do you ensure code quality?', a: 'I use structured agent guidelines (AGENT.md files), automated scoring systems for content quality, and a corrections feedback loop. For each mistake, I document the root cause and propagate the fix across all relevant configurations. I also maintain RULES.md as a living document of lessons learned.' },
+      ]
+    },
+    {
+      title: '📊 SEO & Data',
+      items: [
+        { q: 'Describe your SEO expertise', a: 'Over 10 years in digital — from agency work to in-house at La Compagnie des Animaux (e-commerce). I handle technical SEO audits with Semrush, keyword research, content strategy, and programmatic SEO. Currently managing content production for ACPPAV (healthcare training), producing 60+ SEO-optimized articles with automated scoring dashboards.' },
+        { q: 'What tools do you use for data analysis?', a: 'Semrush for SEO/keyword research (via browser automation), Google Analytics, custom dashboards built in Next.js, Python scripts for data processing, and DataForSEO/Serper APIs for SERP analysis. I also built automated lead enrichment pipelines processing thousands of contacts.' },
+      ]
+    },
+    {
+      title: '🌍 Soft Skills & Culture',
+      items: [
+        { q: 'Why are you interested in this role?', a: '[Customize per company] I\'m passionate about bringing AI from theory to production. I\'ve been running autonomous AI agents for months — not as experiments, but as real business tools generating leads, content, and managing workflows. I want to bring this hands-on production experience to a team building at scale.' },
+        { q: 'What are your salary expectations?', a: 'For freelance missions, my daily rate is 450€ (TJM). For full-time positions, I\'m open to discussing based on the role scope, with a target around 55-70K€ depending on the package and remote flexibility.' },
+        { q: 'How do you handle pressure?', a: 'I thrive under pressure — I built my entire AI agent system while managing multiple client projects simultaneously. My approach: prioritize ruthlessly, delegate to AI agents where possible, and maintain clear communication. I use automated monitoring and heartbeat systems to catch issues before they escalate.' },
+      ]
+    }
+  ];
+  
+  let html = '';
+  sections.forEach(s => {
+    html += `<div class="cheat-section"><h3>${s.title}</h3>`;
+    s.items.forEach(item => {
+      html += `<div class="cheat-item" onclick="this.classList.toggle('closed')">
+        <div class="q">❓ ${item.q}</div>
+        <div class="a">✅ ${item.a}</div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('cheatsheet').innerHTML = html;
+}
+
+loadCheatSheet();
+</script>
+</body>
+</html>

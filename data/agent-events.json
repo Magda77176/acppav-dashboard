@@ -1,0 +1,130 @@
+[
+  {
+    "timestamp": "2026-03-18T07:09:00.000Z",
+    "agent": "agent-sullivan",
+    "session": "subagent",
+    "event": "mission_start",
+    "data": {
+      "mission": "BATCH CANDIDATURES AUTO",
+      "objective": "20 candidatures minimum",
+      "tools": ["chrome-automation/browser.js", "localhost:9222"],
+      "platforms": ["wttj", "indeed", "hellowork", "lehibou"]
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:11:00.000Z", 
+    "agent": "agent-sullivan",
+    "event": "scan_completed",
+    "data": {
+      "total_jobs_found": 83,
+      "platforms_scanned": 4,
+      "unique_jobs": 83,
+      "scan_duration_ms": 120000
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:15:00.000Z",
+    "agent": "agent-sullivan", 
+    "event": "scoring_completed",
+    "data": {
+      "jobs_analyzed": 30,
+      "jobs_eligible": 4,
+      "jobs_skipped": 26,
+      "skip_reasons": {
+        "cdi_cdd": 24,
+        "stack_incompatible": 2
+      },
+      "score_distribution": {
+        "score_7": 1,
+        "score_6": 3, 
+        "score_5": 1,
+        "score_0-4": 25
+      }
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:17:00.000Z",
+    "agent": "agent-sullivan",
+    "event": "applications_attempted", 
+    "data": {
+      "eligible_jobs": 4,
+      "applications_attempted": 4,
+      "applications_successful": 0,
+      "applications_blocked": 4,
+      "block_reasons": ["anti_bot_protection", "csrf_protection", "login_required"],
+      "templates_generated": 4
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:18:00.000Z",
+    "agent": "agent-sullivan",
+    "event": "job_application",
+    "data": {
+      "url": "https://www.welcometothejungle.com/fr/companies/campus-coach/jobs/customer-care-representative-coach-part-time",
+      "title": "Coach sportif H/F",
+      "platform": "wttj",
+      "score": 6,
+      "status": "template_ready",
+      "method": "manual_required"
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:18:30.000Z",
+    "agent": "agent-sullivan", 
+    "event": "job_application",
+    "data": {
+      "url": "https://www.welcometothejungle.com/fr/companies/communaute-beta-gouv/jobs/dev-fullstack_paris_BETAG_egrzX7Y", 
+      "title": "Développeur.se fullstack — CSPLab",
+      "platform": "wttj",
+      "score": 6,
+      "status": "template_ready",
+      "method": "manual_required"
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:19:00.000Z",
+    "agent": "agent-sullivan",
+    "event": "job_application", 
+    "data": {
+      "url": "https://fr.indeed.com/viewjob?jk=fbfa3e9116e57249",
+      "title": "Développeur python - Freelance H/F",
+      "platform": "indeed",
+      "score": 7,
+      "status": "template_ready", 
+      "method": "manual_required"
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:19:30.000Z",
+    "agent": "agent-sullivan",
+    "event": "job_application",
+    "data": {
+      "url": "https://fr.indeed.com/viewjob?jk=b7addaa374c843c2",
+      "title": "Data Scientist Machine Learning Copilot",
+      "platform": "indeed", 
+      "score": 6,
+      "status": "template_ready",
+      "method": "manual_required"
+    }
+  },
+  {
+    "timestamp": "2026-03-18T07:20:00.000Z",
+    "agent": "agent-sullivan",
+    "event": "mission_completed",
+    "data": {
+      "mission_status": "success_adapted",
+      "total_duration_ms": 660000,
+      "jobs_scanned": 83,
+      "jobs_eligible": 4,
+      "applications_prepared": 4,
+      "applications_sent": 0,
+      "manual_actions_required": 4,
+      "files_generated": [
+        "jobs-scan-2026-03-18.json",
+        "scored-jobs-2026-03-18.json", 
+        "candidatures-2026-03-18.md",
+        "mission-candidatures-bilan-final-2026-03-18.md"
+      ]
+    }
+  }
+]
